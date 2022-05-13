@@ -5,7 +5,9 @@
   </nav>
   <router-view/>
 </template>
-
+<script>
+import axios from 'vue';
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
