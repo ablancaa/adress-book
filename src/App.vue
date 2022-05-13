@@ -1,12 +1,20 @@
 <template>
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
+</head>
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
+  <h1>Adress Book</h1>
   <router-view/>
 </template>
 <script>
 import axios from 'vue';
+export default{
+  
+}
 </script>
 <style>
 #app {
