@@ -3,17 +3,19 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <h1>Adress Book</h1>
+<LoginLogout/>
+<SearchBar/>
   <router-view/>
 </template>
 <script>
 import axios from 'vue';
+import SearchBar from './components/SearchBar.vue';
+import LoginLogout from './components/LoginLogout.vue';
 export default{
-  
+  components: { 
+  SearchBar,
+  LoginLogout
+  }
 }
 </script>
 <style>
@@ -23,6 +25,349 @@ export default{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .logo {
+  max-height: 50px;
+}
+.header .app-name {
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.header .user {
+  display: flex;
+}
+.header .login-button,
+.header .logout-button {
+  background: #2c3e50;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .logo {
+  max-height: 50px;
+}
+.header .app-name {
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.header .user {
+  display: flex;
+}
+.header .login-button,
+.header .logout-button {
+  background: #2c3e50;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .logo {
+  max-height: 50px;
+}
+.header .app-name {
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.header .user {
+  display: flex;
+}
+.header .login-button,
+.header .logout-button {
+  background: #2c3e50;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .logo {
+  max-height: 50px;
+}
+.header .app-name {
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.header .user {
+  display: flex;
+}
+.header .login-button,
+.header .logout-button {
+  background: #2c3e50;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .logo {
+  max-height: 50px;
+}
+.header .app-name {
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.header .user {
+  display: flex;
+}
+.header .login-button,
+.header .logout-button {
+  background: #2c3e50;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .logo {
+  max-height: 50px;
+}
+.header .app-name {
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.header .user {
+  display: flex;
+}
+.header .login-button,
+.header .logout-button {
+  background: #2c3e50;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.header {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+.header .left {
+  display: flex;
+  align-items: center;
+}
+.header .right {
+  display: flex;
+  align-items: center;
+}
+.header .logo {
+  max-height: 50px;
+}
+.header .app-name {
+  margin-left: 25px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.header .user {
+  display: flex;
+}
+.header .login-button,
+.header .logout-button {
+  background: #2c3e50;
+  color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15px;
 }
 
 nav {
