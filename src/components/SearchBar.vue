@@ -14,10 +14,11 @@
 import { ref, watch } from "vue";
 export default {
     name: 'SearchBar',
-     emits: ['clearSearch', 'newVal'],
+     emits: ['openContactForm', 'clearSearch', 'newVal'],
   
   setup(props, context){
-    let showModal = ref(false);
+    //let showModal = ref(false);
+    let showContactForm = ref(false);
     let consulta = ref('');
      /* Aquest mètode s'encarregarà de buidar l'element input del camp de cerca.
      S’haurà d’executar quan es faci clic al botó “Clear Search”. */
@@ -28,8 +29,8 @@ export default {
       /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “Add a new recipe”. */
     const showForm = () => {
-      context.emit('openForm', showModal.value = true);
-      console.log("Emitido de SearchBar: "+showModal.value);
+      context.emit('openContactForm', showContactForm.value = true);
+      console.log("Emitido de SearchBar: "+showContactForm.value);
     }
      /*Aquest mètode s'executarà cada vegada que es modifiqui l'element
      input del camp de cerca (cada vegada que es teclegi una lletra). Emetrà un esdeveniment

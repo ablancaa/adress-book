@@ -3,34 +3,45 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
-<LoginLogout @openLogin="toggleForm"/>
-<SearchBar/>
-<login-form v-if="showModal" @openForm="toggleForm"/>
+<LoginLogout @openFormLogin="toggleFormLogin"/>
+<SearchBar @openContactForm="toggleFormContact"/>
+<LoginForm v-if="showModalLogin"/>
+<FormContact v-if="showModalContact" @closeFormContact="toggleFormContact"/>
   <router-view/>
 </template>
 <script>
 import axios from 'vue';
 import SearchBar from './components/SearchBar.vue';
+import FormContact from './components/FormContact.vue';
 import LoginForm from './components/LoginForm.vue';
 import LoginLogout from './components/LoginLogout.vue';
 export default{
   components: { 
   SearchBar,
   LoginLogout,
-  LoginForm
+  LoginForm,
+  FormContact
   },
   data(){
     return{
-      showModal: false,
+      showModalLogin: false,
+      showModalContact: false,
     }
   },
   methods: {
      /*Modifica l'estat del paràmetre showModal al seu invers.*/
-    toggleForm(info){
-      if (info == true){
-        this.showModal = true;
+    toggleFormLogin(info){
+      if (info == true && this.showModalLogin == false){
+        this.showModalLogin = true;
       } else {
-        this.showModal = false;
+        this.showModalLogin = false;
+      }
+    },
+    toggleFormContact(info){
+      if (info == true && this.showModalContact == false) {
+        this.showModalContact = true;
+      } else {
+        this.showModalContact = false;
       }
     },
   }

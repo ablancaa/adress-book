@@ -12,18 +12,19 @@
 import { ref } from "vue";
 export default {
     name: 'LoginLogout',
-    emits: ['openLogin'],
+    emits: ['openFormLogin'],
   
     setup(props, context) {
     let showFormLogin = ref(false);
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “Add a new recipe”. */
     const showLogin = () => {
-      context.emit('openLogin', showFormLogin.value = true);
+      context.emit('openFormLogin', showFormLogin.value = true);
       console.log("Emitido de LoginLogout: "+showFormLogin.value);
     }
   
     return { showLogin };
+
   }//FIN Setup()
 }
 </script>
