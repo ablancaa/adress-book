@@ -3,8 +3,8 @@
     <div class="header">
       <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
       <div class="app-name">Address Book</div>
-      <header>{{error}}</header>
-      <span class="user">{{usuario.email}}</span>
+      <header>{{fallo}}</header>
+      <span class="user">{{user}}</span>
       <button v-show="props.usuario==''" class="button" @click="showLogin">Login</button>
       <button v-show="props.usuario !=''" class="button" @click="logout">Logout</button>
     </div>
@@ -22,8 +22,8 @@ export default {
     emits: ['openFormLogin'],
   
     setup(props, context) {
-     
-    //let user = localStorage.getItem("email");
+    let fallo = ref('');
+    var user = localStorage.usuario;
     let showFormLogin = ref(false);
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “Add a new recipe”. */
@@ -33,9 +33,7 @@ export default {
     }
 
     const logout = async () => {
-      console.log("Logout");
-      localStorage.clear();
-      location.reload()
+      console.log("Logout");      
       //Carga el listado de contactos del servidor
       try {
         let response = await axios.get("http://localhost:3000/addresses");
@@ -43,11 +41,14 @@ export default {
         console.log("el addressList")
         console.log(this.addressList);
       } catch (error){
+        fallo.value = error;
         console.log("ERROR "+error);
       }
+      localStorage.clear();
+      location.reload();
     }
   
-    return { showLogin, logout, props };
+    return { showLogin, logout, props, user, fallo };
 
   }//FIN Setup()
 }

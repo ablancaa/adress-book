@@ -1,27 +1,14 @@
 <template>
-  <div class="contact">
-    <!-- <div class="estrella-contact" v-show="contact.private"><img src="@/assets/estrella.png" /></div> -->
+  <div class="contact" :class="address.private && 'private'">
     <button class="delete-contact" @click="deleteAddress">
       <img src="../assets/delete-button.svg" alt="Delete Contact" />
     </button>
-    <h2 class="contact-title">{{ address.name }}</h2>
+    <h2 class="contact-title">{{ address.name }} {{ address.lastName }}</h2>
     <div class="contact-info">
-      <div class="contact-info-item">
-        <span class="contact-info-label">Last Name:</span>
-        <span class="contact-info-value">{{ address.lastName }}</span>
-      </div>
-      <div class="contact-info-item">
-        <span class="contact-info-label">City:</span>
-        <span class="contact-info-value">{{ address.city }}</span>
-      </div>
-      <div class="contact-info-item">
-        <span class="contact-info-label">State:</span>
-        <span class="contact-info-value">{{ address.state }}</span>
-      </div>
+        <span class="contact-address">{{ address.address }} {{ address.city }} {{ address.state }} - {{ address.zip }} - {{address.country}}</span>
     </div><!-- FIN contact-info -->
-    <div class="contact-info-item">
-      <span class="contact-info-label">Email:</span>
-      <span class="contact-info-value">{{ address.email }}</span>
+    <div class="contact-info">
+      <span class="contact-info-value">{{ address.email }} {{ address.phone }}</span>
     </div>
   </div>
 </template>
@@ -42,7 +29,9 @@ export default {
          console.log("FUNCIÓN: deleteAddress() desde CardContact emite => "+contacto.value.id);
          context.emit("deleteAddress", contacto.value.id);
       }//FIN deleteRecipe()
+
       return { deleteAddress }
+
     }
 }
 </script>
@@ -55,6 +44,7 @@ export default {
   border-radius: 4px;
   position: relative;
   text-align: left;
+  box-shadow: 3px 3px 1px;
 }
 .contact.private {
   background-color: #f5f5f5;

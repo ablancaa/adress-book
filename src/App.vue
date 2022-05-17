@@ -76,9 +76,8 @@ export default{
       .then(response =>{
         axios.defaults.headers.common['authorization'] = response.data;
         this.usuario = response.data.data;
+        localStorage.setItem('email', this.usuario.email);
         console.log(this.usuario);
-        //localStorage.setItem("usuario", JSON.stringify(this.usuario));
-        //localStorage.getItem("usuario");
         this.showModalLogin = false;
       })
       } catch (error) {
@@ -105,7 +104,7 @@ export default{
     },
 
     toggleFormContact(info){
-      if (info == true && this.showModalContact == false) {
+      if (info == true) {
         this.showModalContact = true;
       } else {
         this.showModalContact = false;
