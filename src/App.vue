@@ -87,6 +87,7 @@ export default{
       //Carga el listado de contactos del servidor
       try {
         let response = await axios.get("http://localhost:3000/addresses");
+        axios.defaults.headers.common['authorization'] = response.data;
         this.addressList = response.data.data;
         console.log("el addressList")
         console.log(this.addressList);
