@@ -72,7 +72,7 @@ export default {
         let showForm = ref(false);
         
         //Mensaje de error
-        let mensajeError = ref('The fields Title, Ingredients and Directions are required <br/>');
+        let mensajeError = ref('The fields Name, Last name and Email are required <br/>');
         
         //Campos del formulario
         let contact = ref({

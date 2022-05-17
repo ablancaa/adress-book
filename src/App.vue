@@ -7,7 +7,7 @@
 <SearchBar @openContactForm="toggleFormContact"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact"/>
-<ContactList :addressList="addressList" @deleteAddress="deleteAddress"/>
+<ContactList :addressList="ListFiltered" @deleteAddress="deleteAddress"/>
   <router-view/>
 </template>
 <script>
@@ -77,11 +77,21 @@ export default{
         axios.defaults.headers.common['authorization'] = response.data;
         this.usuario = response.data.data;
         console.log(this.usuario);
-        
+        //localStorage.setItem("usuario", JSON.stringify(this.usuario));
+        //localStorage.getItem("usuario");
         this.showModalLogin = false;
       })
       } catch (error) {
       console.log(error);
+      }
+      //Carga el listado de contactos del servidor
+      try {
+        let response = await axios.get("http://localhost:3000/addresses");
+        this.addressList = response.data.data;
+        console.log("el addressList")
+        console.log(this.addressList);
+      } catch (error){
+        console.log("ERROR "+error);
       }
     },
      /*Modifica l'estat del paràmetre showModal al seu invers.*/
@@ -110,6 +120,15 @@ export default{
         console.log("ID a borrar desde App: "+id);
       } catch (error){
         console.log(error);
+      }
+      //Carga el listado de contactos del servidor
+      try {
+        let response = await axios.get("http://localhost:3000/addresses");
+        this.addressList = response.data.data;
+        console.log("el addressList")
+        console.log(this.addressList);
+      } catch (error){
+        console.log("ERROR "+error);
       }
       
     },
