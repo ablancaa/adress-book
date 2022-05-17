@@ -5,44 +5,104 @@
 </head>
 <LoginLogout @openFormLogin="toggleFormLogin"/>
 <SearchBar @openContactForm="toggleFormContact"/>
-<LoginForm v-if="showModalLogin"/>
+<LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact"/>
+<ContactList :addressList="addressList" @deleteContact="deleteContact"/>
   <router-view/>
 </template>
 <script>
-import axios from 'vue';
+//import axios from 'vue';
+import axios from 'axios'
 import SearchBar from './components/SearchBar.vue';
 import FormContact from './components/FormContact.vue';
 import LoginForm from './components/LoginForm.vue';
 import LoginLogout from './components/LoginLogout.vue';
+import ContactList from './components/ContactList.vue';
 export default{
   components: { 
   SearchBar,
   LoginLogout,
   LoginForm,
-  FormContact
+  FormContact,
+  ContactList: ContactList
   },
   data(){
     return{
+      addressList: [],
       showModalLogin: false,
       showModalContact: false,
+      usuario: [],
     }
   },
+  async created() { 
+    //Carga el listado de contactos del servidor
+    try {
+      let response = await axios.get("http://localhost:3000/addresses");
+      this.addressList = response.data.data;
+      console.log("el addressList")
+      console.log(this.addressList);
+    } catch (error){
+      console.log("ERROR "+error);
+    }
+  },
+  computed: {
+    
+  /* Funció que:
+      ○ Retorna el llistat de receptes en el cas que searchTerm estigui buit.
+      ○ Retorna la col·lecció de receptes filtrada pels termes de cerca. Heu de buscar si
+        searchTerms forma part del nom de la recepta o dels ingredients a cada recepta. */
+     ListFiltered() {
+      let listaFiltrada = [];
+      
+      if(this.searchTerm != ''){
+        listaFiltrada = this.addressList.find(address => 
+          address.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          address.email.includes(this.searchTerm.toLowerCase()),
+        )
+      } else {
+        listaFiltrada = this.addressList;
+      }
+      return listaFiltrada;
+    },
+    
+  },     
   methods: {
+    async login (userLogin){
+      try{
+      let response = await axios.post("http://localhost:3000/login", userLogin);
+      this.usuario = response.data;
+      console.log(this.usuario);
+      } catch (error) {
+      console.log(error);
+      }
+    },
      /*Modifica l'estat del paràmetre showModal al seu invers.*/
     toggleFormLogin(info){
-      if (info == true && this.showModalLogin == false){
+      if (info == true){
         this.showModalLogin = true;
       } else {
         this.showModalLogin = false;
       }
     },
+
     toggleFormContact(info){
       if (info == true && this.showModalContact == false) {
         this.showModalContact = true;
       } else {
         this.showModalContact = false;
       }
+    },
+
+    deleteContact(id){
+      console.log(id);
+    },
+
+    setSearchTerm(info){
+      this.searchTerm = info;
+      if (this.searchTerm == ''){
+        this.ListFiltered;
+      }
+      console.log("setSearchInfo() en App: "+this.searchTerm);     
     },
   }
 }

@@ -6,7 +6,8 @@ import App from './App.vue'
 import './registerServiceWorker'
 
 import router from './router'
-import { Vue } from 'vue-demi'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 const pinia = createPinia()
-createApp(App).use(router, pinia).mount('#app')
+createApp(App).use(router, pinia, VueAxios, axios).mount('#app')

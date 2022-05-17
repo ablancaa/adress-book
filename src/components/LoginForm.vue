@@ -1,7 +1,6 @@
 <template>
     <div class="modal-container">
-        <div class="login-form">
-            <form>
+        <form class="login-form" @submit.prevent="login">
                 <div class="login-form-header">
                     <button @click="closeForm">
                     <img src="../assets/close-button.svg" alt="Close modal" />
@@ -10,26 +9,28 @@
                 <h1 class="">Login</h1>
                 <div class="login-form-item">
                     <label>Usuario</label>
-                    <input type="text" v-model="userName" placeholder=""/>
+                    <input type="email" v-model="userName" placeholder=""/>
                 </div>
                 <div class="login-form-item">
                     <label>Passwrod</label>
-                    <input type="text" v-model="userPassword" placeholder=""/>
+                    <input type="password" v-model="userPassword" placeholder=""/>
                 </div>
                 <div class="login-form-item">
                     <button @click="openForm">Login</button>
                 </div>
-            </form>
-       </div>  <!-- fin login-form  -->
+       </form>  <!-- fin login-form  -->
     </div>
 </template>
 
 <script>
 import { ref } from "vue";
 export default {
-    emits:['closeForm', 'openForm'],
+    emits:['closeForm', 'openForm', 'usuarioLogin'],
     setup (props, context) {
-         let showModal = ref(false);
+        let showModal = ref(false);
+        let userName = ref('');
+        let userPassword = ref('');
+
       /* Aquest mètode s'ha d'executar quan es faci clic al botó que conté el svg amb
          el símbol X. S'encarregarà de:
           ○ Emetre un esdeveniment close-modal  */
@@ -41,7 +42,19 @@ export default {
           context.emit('openForm', showModal.value = true);
         }//FIN closeForm()
 
-      return { closeForm, openForm }
+        const login = () =>{
+            let usuario = ref({
+                "email": userName.value,
+                "password": userPassword.value,
+            })
+            console.log("Emite LoginForm: ")
+            console.log(usuario.value)
+            context.emit('usuarioLogin', usuario);
+            console.log(usuario.value.email);
+            console.log(usuario.value.password);
+        }
+
+      return { login, closeForm, openForm, userName, userPassword }
      
     }
 }

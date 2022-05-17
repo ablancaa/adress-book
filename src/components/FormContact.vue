@@ -13,7 +13,7 @@
                     <img src="../assets/close-button.svg" alt="Close modal" />
                 </button>
             </div><!-- contact-form-header -->
-            <form id="formulario" @submit.prevent="">
+            <form id="formulario" @submit.prevent="createContact">
                 <div class="contact-form-item">
                     <label for="name">Name</label>
                     <input type="text" id="name" v-model="contact.name" />
@@ -44,7 +44,7 @@
                 </div>
                 <div class="contact-form-item">
                     <label for="phone">phone</label>
-                    <input type="text" id="phone" v-model="contact.phone" />
+                    <input type="number" id="phone" v-model="contact.phone" />
                 </div>
                 <div class="contact-form-item">
                     <label for="email">Email</label>
@@ -68,31 +68,110 @@ import { uuid } from 'vue3-uuid';
 export default {
     emits:['openFormContact', 'closeFormContact'],
     setup (props, context) {
+        //Variable que emite para mostrar formulario
         let showForm = ref(false);
         
-        let contact = ref({
-        id: uuid.v1(),
-        name: '',
-        lastName: '',
-        address: '',
-        city: '', 
-        state: '',
-        zip: [],
-        country: [],
-        phone: '',
-        email: '',
-        private: ''
-      });
+        //Mensaje de error
+        let mensajeError = ref('The fields Title, Ingredients and Directions are required <br/>');
         
+        //Campos del formulario
+        let contact = ref({
+            id: uuid.v1(),
+            name: '',
+            lastName: '',
+            address: '',
+            city: '', 
+            state: '',
+            zip: '',
+            country: '',
+            phone: '',
+            email: '',
+            private: ''
+        });
+
+        /* Emite para que se muestre el formulario de introducción de usuario */
         const showFormContact = () => {
             context.emit('openFormContact', showForm.value = true);
             console.log("Emitido de LoginLogout: "+showForm.value);
         }
+
+        /* Emite para que se cierre el formulario de introducción de usuario */
         const closeFormContact = () => {
             context.emit('closeFormContact', showForm.value = false);
         }//FIN closeForm()
 
-        return { showFormContact, closeFormContact, contact }
+        const createContact = () => {
+          var error = document.getElementById("errores");
+          var add = document.getElementById("add");
+          //Valida que los campos no esten vacíos
+          if(contact.value.id == '' || contact.value.name == '' || contact.value.lastName == '' || contact.value.email == '') {
+          //Chivatos de campos vacios
+            console.log(contact.value.id);
+            console.log("Id vacio!!");
+            console.log("Nombre Vacio!!");
+            console.log("Apellido Vacio!!");
+            console.log("Email Vacio!!");
+          //Pinta en pantalla el error
+           // error.innerHTML = 'The fields Title, Ingredients and Directions are required <br/>';
+            error.innerHTML = mensajeError.value;
+            error.innerHTML += '<br/>';
+            add.innerHTML = '';
+          } else {
+          //Indico si tiene el featured activado
+            if(contact.value.private==''){
+              contact.value.private = false;
+            } else {
+              contact.value.private = true;
+            }
+            
+          //Creo el objeto contacto para pasar a App 
+              let contacto = {
+                  id: contact.value.id, 
+                  name: contact.value.name, 
+                  lastName: contact.value.lastName, 
+                  address: contact.value.address,
+                  city: contact.value.city,
+                  state: contact.value.state,
+                  zip: contact.value.zip,
+                  country: contact.value.country,
+                  phone: contact.value.phone,
+                  email: contact.value.email,
+                  private: contact.value.private,
+              };
+          //Emite el contacto nuevo a App
+             context.emit('nuevoContacto', contacto);
+          //Muestra datos de receta por consola
+              console.log("Emitido nuevo contacto");
+              console.log(contacto);
+          //Pongo el Div de error en blanco
+              error.innerHTML = '';
+          //Indico en el Div add que se añade el contacto nuevo
+              add.innerHTML = 'Add Contact <br/>';
+              add.innerHTML += '<br/>';
+          //Borro los campos del formulario    
+              borrarCampos();
+          }//Fin if/else
+    
+        }//FIN createContact()
+
+        const borrarCampos = () => {
+          //Reinicio los campos
+            let contact = ref({
+                id: uuid.v1(),
+                name: contact.value.name='',
+                lastName: contact.value.lastName='',
+                address: contact.value.address='',
+                city: contact.value.city='',
+                state: contact.value.state='',
+                zip: contact.value.zip='',
+                country: contact.value.country='',
+                phone: contact.value.phone='',
+                email: contact.value.email='',
+                private: contact.value.private='',
+            });
+        }
+
+        return { showFormContact, closeFormContact, createContact, borrarCampos, contact }
     }
 }
 </script>

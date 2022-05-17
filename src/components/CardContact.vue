@@ -1,56 +1,91 @@
 <template>
-  <div class="recipe" :class="recipe.featured && 'featured'">
-    <div class="estrella-recipe" v-show="recipe.featured"><img src="@/assets/estrella.png" /></div>
-    <button class="delete-recipe" @click="deleteRecipe">
-      <img src="../assets/delete-button.svg" alt="Delete recipe" />
+  <div class="contact">
+    <!-- <div class="estrella-contact" v-show="contact.private"><img src="@/assets/estrella.png" /></div> -->
+    <button class="delete-contact" @click="deleteContact">
+      <img src="../assets/delete-button.svg" alt="Delete Contact" />
     </button>
-    <h2 class="recipe-title">{{ recipe.title }}</h2>
-    <div class="recipe-image">
-      <img :src="recipe.imageUrl" />
-    </div>
-    <div class="recipe-info">
-      <div class="recipe-info-item">
-        <span class="recipe-info-label">Servings:</span>
-        <span class="recipe-info-value">{{ recipe.servings }}</span>
+    <h2 class="contact-title">{{ address.name }}</h2>
+    <div class="contact-info">
+      <div class="contact-info-item">
+        <span class="contact-info-label">Last Name:</span>
+        <span class="contact-info-value">{{ address.lastName }}</span>
       </div>
-      <div class="recipe-info-item">
-        <span class="recipe-info-label">Time:</span>
-        <span class="recipe-info-value">{{ recipe.time }}</span>
+      <div class="contact-info-item">
+        <span class="contact-info-label">City:</span>
+        <span class="contact-info-value">{{ address.city }}</span>
       </div>
-      <div class="recipe-info-item">
-        <span class="recipe-info-label">Difficulty:</span>
-        <span class="recipe-info-value">{{ recipe.difficulty }}</span>
+      <div class="contact-info-item">
+        <span class="contact-info-label">State:</span>
+        <span class="contact-info-value">{{ address.state }}</span>
       </div>
-    </div>
-    <div class="recipe-ingredients">
-      <h3 class="recipe-ingredients-title">Ingredients</h3>
-      <ul class="recipe-ingredients-list">
-        <li v-for="ingredient in recipe.ingredients" :key="ingredient">
-          {{ ingredient }}
-        </li>
-      </ul>
-    </div>
-    <div class="recipe-directions">
-      <h3 class="recipe-directions-title">Directions</h3>
-      <ol class="recipe-directions-list">
-        <li v-for="direction in recipe.directions" :key="direction">
-          {{ direction }}
-        </li>
-      </ol>
+    </div><!-- FIN contact-info -->
+    <div class="contact-info-item">
+      <span class="contact-info-label">Email:</span>
+      <span class="contact-info-value">{{ address.email }}</span>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'; 
 export default {
-    setup () {
-        
+   props: {
+    address: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ['deleteRecipe'],
+    setup (props, context) {
+         let contacto = ref(props.address);
 
-        return {}
+        return { contacto }
     }
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+.contact {
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 20px;
+  border-radius: 4px;
+  position: relative;
+  text-align: left;
+}
+.contact.private {
+  background-color: #f5f5f5;
+}
+.contact-title {
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.contact-address {
+  font-size: 18px;
+}
+.contact-contact {
+  font-size: 16px;
+}
+.contact-info {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.contact-info-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+.delete-contact {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.delete-contact img {
+  width: 20px;
+}
 </style>
