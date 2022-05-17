@@ -1,7 +1,7 @@
 <template>
   <div class="contact">
     <!-- <div class="estrella-contact" v-show="contact.private"><img src="@/assets/estrella.png" /></div> -->
-    <button class="delete-contact" @click="deleteContact">
+    <button class="delete-contact" @click="deleteAddress">
       <img src="../assets/delete-button.svg" alt="Delete Contact" />
     </button>
     <h2 class="contact-title">{{ address.name }}</h2>
@@ -35,11 +35,14 @@ export default {
       required: true,
     },
   },
-  emits: ['deleteRecipe'],
+  emits: ['deleteAddress'],
     setup (props, context) {
-         let contacto = ref(props.address);
-
-        return { contacto }
+      let contacto = ref(props.address);
+      const deleteAddress = () => {
+         console.log("FUNCIÓN: deleteAddress() desde CardContact emite => "+contacto.value.id);
+         context.emit("deleteAddress", contacto.value.id);
+      }//FIN deleteRecipe()
+      return { deleteAddress }
     }
 }
 </script>

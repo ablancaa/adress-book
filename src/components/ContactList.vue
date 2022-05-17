@@ -1,7 +1,7 @@
 <template>
   <div id="contact-list" class="contact-list">
     <div v-for="address in addressList" :key="address.id">
-      <cardContact :address="address" @deleteContact="deleteContact"/>
+      <cardContact :address="address" @deleteAddress="deleteAddress"/>
     </div>
   </div>
 </template>
@@ -18,15 +18,15 @@ export default {
     }
   },
   components: { cardContact },
-  emits:['deleteContact'],
+  emits:['deleteAddress'],
   
   setup(props, context){
-   const deleteContact = (id) => {
-         context.emit('deleteContact', id);
-         console.log("FUNCIÓN deleteContact() desde ContactList emite => "+id);
+   const deleteAddress = (id) => {
+         context.emit('deleteAddress', id);
+         console.log("FUNCIÓN deleteAddress() desde ContactList emite => "+id);
        }
 
-    return { deleteContact }
+    return { deleteAddress }
   }
 }
 </script>

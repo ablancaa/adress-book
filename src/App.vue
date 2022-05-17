@@ -7,7 +7,7 @@
 <SearchBar @openContactForm="toggleFormContact"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact"/>
-<ContactList :addressList="addressList" @deleteContact="deleteContact"/>
+<ContactList :addressList="addressList" @deleteAddress="deleteAddress"/>
   <router-view/>
 </template>
 <script>
@@ -55,7 +55,7 @@ export default{
       let listaFiltrada = [];
       
       if(this.searchTerm != ''){
-        listaFiltrada = this.addressList.find(address => 
+        listaFiltrada = this.addressList.filter(address => 
           address.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
           address.email.includes(this.searchTerm.toLowerCase()),
         )
@@ -93,8 +93,8 @@ export default{
       }
     },
 
-    deleteContact(id){
-      console.log(id);
+    deleteAddress(id){
+      console.log("ID a borrar desde App: "+id);
     },
 
     setSearchTerm(info){
