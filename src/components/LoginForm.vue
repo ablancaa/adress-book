@@ -16,7 +16,7 @@
                     <input type="password" v-model="userPassword" placeholder=""/>
                 </div>
                 <div class="login-form-item">
-                    <button @click="openForm">Login</button>
+                    <button @submit.prevent="login">Login</button>
                 </div>
        </form>  <!-- fin login-form  -->
     </div>

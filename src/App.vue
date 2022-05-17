@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
-<LoginLogout @openFormLogin="toggleFormLogin"/>
+<LoginLogout @openFormLogin="toggleFormLogin" :usuario="usuario"/>
 <SearchBar @openContactForm="toggleFormContact"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact"/>
@@ -32,6 +32,7 @@ export default{
       showModalLogin: false,
       showModalContact: false,
       usuario: [],
+      searchTerm: ''
     }
   },
   async created() { 
@@ -68,10 +69,17 @@ export default{
   },     
   methods: {
     async login (userLogin){
+      console.log("Recibe App Login");
+      console.log(userLogin);
       try{
-      let response = await axios.post("http://localhost:3000/login", userLogin);
-      this.usuario = response.data;
-      console.log(this.usuario);
+      await axios.post("http://localhost:3000/login", userLogin.value)
+      .then(response =>{
+        axios.defaults.headers.common['authorization'] = response.data;
+        this.usuario = response.data.data;
+        console.log(this.usuario);
+        
+        this.showModalLogin = false;
+      })
       } catch (error) {
       console.log(error);
       }
@@ -93,8 +101,17 @@ export default{
       }
     },
 
-    deleteAddress(id){
-      console.log("ID a borrar desde App: "+id);
+    async deleteAddress(id){
+      try {
+        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        let response = await axios.delete("http://localhost:3000/address", { data: { id } });
+        console.log(response);
+        console.log(this.usuario.tokenId)
+        console.log("ID a borrar desde App: "+id);
+      } catch (error){
+        console.log(error);
+      }
+      
     },
 
     setSearchTerm(info){

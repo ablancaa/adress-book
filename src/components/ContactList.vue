@@ -1,7 +1,7 @@
 <template>
   <div id="contact-list" class="contact-list">
     <div v-for="address in addressList" :key="address.id">
-      <cardContact :address="address" @deleteAddress="deleteAddress"/>
+      <cardContact :address="address" @deleteAddress="deleteAddress" :usuario="usuario"/>
     </div>
   </div>
 </template>
@@ -12,6 +12,9 @@ import { ref } from 'vue';
 export default {  
     name: "ContactList",
     props: {
+        usuario:{
+            type: Array,
+        },
         addressList: {
         type: Array,
         required: true,

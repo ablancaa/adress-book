@@ -3,7 +3,10 @@
     <div class="header">
       <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
       <div class="app-name">Address Book</div>
-      <button class="button" @click="showLogin">Login</button>
+      <header></header>
+      <span class="user">{{props.usuario.email}}</span>
+      <button v-show="props.usuario==''" class="button" @click="showLogin">Login</button>
+      <button v-show="props.usuario !=''" class="button" @click="logout">Logout</button>
     </div>
   </div>
 </template>
@@ -12,9 +15,14 @@
 import { ref } from "vue";
 export default {
     name: 'LoginLogout',
+
+    props: {
+      usuario: Object,
+    },
     emits: ['openFormLogin'],
   
     setup(props, context) {
+    props.correoUsuario;
     let showFormLogin = ref(false);
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “Add a new recipe”. */
@@ -22,8 +30,13 @@ export default {
       context.emit('openFormLogin', showFormLogin.value = true);
       console.log("Emitido de LoginLogout: "+showFormLogin.value);
     }
+
+    const logout = () => {
+      console.log("Logout");
+
+    }
   
-    return { showLogin };
+    return { showLogin, logout, props };
 
   }//FIN Setup()
 }
@@ -54,6 +67,9 @@ export default {
   font-weight: bold;
   font-size: 20px;
 }
+.user{
+  float: right;
+}
 .header .user {
   display: flex;
 }
@@ -66,5 +82,15 @@ export default {
   border-radius: 4px;
   cursor: pointer;
   margin-left: 15px;
+}
+button {
+  margin-left: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #4caf50;
+  color: #fff;
 }
 </style>
