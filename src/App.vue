@@ -74,12 +74,12 @@ export default{
       try{
       await axios.post("http://localhost:3000/login", userLogin.value)
       .then(response =>{
-        axios.defaults.headers.common['authorization'] = response.data;
+        axios.defaults.headers.common['authorization'] = response.data.data;
         this.usuario = response.data.data;
-        localStorage.setItem('email', this.usuario.email);
-        console.log(this.usuario.email);
-        localStorage.setItem('tokenId', this.usuario.tokenId);
-        console.log(this.usuario.tokenId);
+        sessionStorage.setItem('email', this.usuario.email);
+        console.log("Email: "+this.usuario.email);
+        sessionStorage.setItem('tokenId', this.usuario.tokenId);
+        console.log("TokenID: "+this.usuario.tokenId);
         console.log(this.usuario);
         this.showModalLogin = false;
         //location.reload();
