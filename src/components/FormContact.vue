@@ -66,7 +66,7 @@
 import { ref } from 'vue';
 import { uuid } from 'vue3-uuid';
 export default {
-    emits:['openFormContact', 'closeFormContact'],
+    emits:['openFormContact', 'closeFormContact', 'nuevoContacto'],
     setup (props, context) {
         //Variable que emite para mostrar formulario
         let showForm = ref(false);
@@ -156,7 +156,7 @@ export default {
 
         const borrarCampos = () => {
           //Reinicio los campos
-            let contact = ref({
+            contact = ref({
                 id: uuid.v1(),
                 name: contact.value.name='',
                 lastName: contact.value.lastName='',

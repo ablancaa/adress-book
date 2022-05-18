@@ -3,10 +3,10 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
-<LoginLogout @openFormLogin="toggleFormLogin" :usuario="usuario"/>
+<LoginLogout @openFormLogin="toggleFormLogin" :isLogged="isLogged" @noLogged="logout"/>
 <SearchBar @openContactForm="toggleFormContact"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
-<FormContact v-if="showModalContact" @closeFormContact="toggleFormContact"/>
+<FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
 <ContactList :addressList="ListFiltered" @deleteAddress="deleteAddress"/>
   <router-view/>
 </template>
@@ -18,7 +18,7 @@ import FormContact from './components/FormContact.vue';
 import LoginForm from './components/LoginForm.vue';
 import LoginLogout from './components/LoginLogout.vue';
 import ContactList from './components/ContactList.vue';
-export default{
+export default {
   components: { 
   SearchBar,
   LoginLogout,
@@ -32,7 +32,8 @@ export default{
       showModalLogin: false,
       showModalContact: false,
       usuario: [],
-      searchTerm: ''
+      searchTerm: '',
+      isLogged: false,
     }
   },
   async created() { 
@@ -69,25 +70,22 @@ export default{
   },     
   methods: {
     async login (userLogin){
-      console.log("Recibe App Login");
-      console.log(userLogin);
       try{
       await axios.post("http://localhost:3000/login", userLogin.value)
       .then(response =>{
         axios.defaults.headers.common['authorization'] = response.data.data;
         this.usuario = response.data.data;
-        sessionStorage.setItem('email', this.usuario.email);
-        console.log("Email: "+this.usuario.email);
-        sessionStorage.setItem('tokenId', this.usuario.tokenId);
-        console.log("TokenID: "+this.usuario.tokenId);
-        console.log(this.usuario);
+        //console.log("Email funcion login() app: "+this.usuario.email);
+        //console.log("TokenID: "+this.usuario.tokenId);
+        //console.log(this.usuario);
+        localStorage.setItem('email', this.usuario.email);
+        localStorage.setItem('tokenId', this.usuario.tokenId);
         this.showModalLogin = false;
-        //location.reload();
       })
       } catch (error) {
       console.log(error);
       }
-      //Carga el listado de contactos del servidor
+      //Carga el listado de contactos del servidor con autorizacion
       try {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.get("http://localhost:3000/addresses");
@@ -97,6 +95,24 @@ export default{
       } catch (error){
         console.log("ERROR "+error);
       }
+    },
+
+    async logout() {
+      console.log("Logout");
+      localStorage.clear();
+      localStorage.removeItem("email");   
+      
+      //Carga el listado de contactos del servidor
+      try {
+        let response = await axios.get("http://localhost:3000/addresses");
+        this.addressList = response.data.data;
+        console.log("el addressList")
+        console.log(this.addressList);
+      } catch (error){
+        console.log("ERROR "+error);
+      }
+        location.reload();
+        
     },
      /*Modifica l'estat del paràmetre showModal al seu invers.*/
     toggleFormLogin(info){
@@ -114,13 +130,37 @@ export default{
         this.showModalContact = false;
       }
     },
+    async createContact(address){
+      console.log("Entra en create contact");
+      console.log(address);
+      try {
+        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        let response = await axios.post("http://localhost:3000/address", address );
+        console.log(response);
+        console.log("Contacto añadido: "+address);
+      } catch (error){
+        console.log(error);
+      }
+      //Carga el listado de contactos del servidor con autorizacion
+      try {
+        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        let response = await axios.get("http://localhost:3000/addresses");
+        this.addressList = response.data.data;
+        console.log("el addressList")
+        console.log(this.addressList);
+      } catch (error){
+        console.log("ERROR "+error);
+      }
+      //location.reload();
+    },
 
     async deleteAddress(id){
       try {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.delete("http://localhost:3000/address", { data: { id } });
-        console.log(response);
+        //console.log(response);
         console.log(this.usuario.tokenId)
+        console.log(response);
         console.log("ID a borrar desde App: "+id);
       } catch (error){
         console.log(error);

@@ -3,53 +3,46 @@
     <div class="header">
       <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
       <div class="app-name">Address Book</div>
-      <span>{{ user }}</span>
-      <button v-show="props.usuario==''" class="button" @click="showLogin">Login</button>
-      <button v-show="props.usuario !=''" class="button" @click="logout">Logout</button>
+      <div v-show="user != ''">{{ user }}</div>
+      <button v-if="!user" class="button" @click="showLogin">Login</button>
+      <button v-else class="button" @click="logout">Logout</button>
     </div>
   </div>
 </template>
 <script>
-import { ref, axios } from "vue";
+import { ref } from "vue";
 export default {
   name: 'LoginLogout',
 
   props: {
     usuario: Object,
   },
-  emits: ['openFormLogin'],
   
-  setup(props, context, ) {
-    let user = ref(sessionStorage.getItem('email'));
-    console.log("USER: "+user.value)
-      
-   
-    console.log("El email: "+user.value)
+  emits: ['openFormLogin', 'noLogged' ],
+  
+  setup(props, context) {
+    
+    let user = ref('');
+    let isLogged = ref(false)
     let showFormLogin = ref(false);
+    
+    user.value = localStorage.getItem('email');
+    console.log("USER: "+user.value)   
+    console.log("El email: "+user.value)
+    
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
-    d’executar quan es faci clic al botó “Add a new recipe”. */
+    d’executar quan es faci clic al botó “L”. */
     const showLogin = () => {
       context.emit('openFormLogin', showFormLogin.value = true);
       console.log("Emitido de LoginLogout: "+showFormLogin.value);
     }
 
     const logout = async () => {
-      console.log("Logout");  
-      sessionStorage.clear();    
-      //Carga el listado de contactos del servidor
-      try {
-        let response = await axios.get("http://localhost:3000/addresses");
-        this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
-      } catch (error){
-        console.log("ERROR "+error);
-      }
-     
-      location.reload();
+      console.log("Logout");
+      context.emit('noLogged', isLogged.value = false);
     }
-    console.log("El email: "+user.value)
-    return { showLogin, logout, props, user };
+   
+    return { showLogin, logout, props, user, isLogged };
 
   }//FIN Setup()
 }

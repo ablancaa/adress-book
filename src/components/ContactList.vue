@@ -8,7 +8,7 @@
 
 <script>
 import cardContact from "./CardContact.vue";
-import { ref } from 'vue';
+import { } from 'vue';
 export default {  
     name: "ContactList",
     props: {
