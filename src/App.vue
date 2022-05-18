@@ -77,16 +77,20 @@ export default{
         axios.defaults.headers.common['authorization'] = response.data;
         this.usuario = response.data.data;
         localStorage.setItem('email', this.usuario.email);
+        console.log(this.usuario.email);
+        localStorage.setItem('tokenId', this.usuario.tokenId);
+        console.log(this.usuario.tokenId);
         console.log(this.usuario);
         this.showModalLogin = false;
+        //location.reload();
       })
       } catch (error) {
       console.log(error);
       }
       //Carga el listado de contactos del servidor
       try {
+        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.get("http://localhost:3000/addresses");
-        axios.defaults.headers.common['authorization'] = response.data;
         this.addressList = response.data.data;
         console.log("el addressList")
         console.log(this.addressList);

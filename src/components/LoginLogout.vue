@@ -4,7 +4,7 @@
       <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
       <div class="app-name">Address Book</div>
       <header>{{fallo}}</header>
-      <span class="user">{{user}}</span>
+      <span v-if="user !=''" class="user">{{user}}</span>
       <button v-show="props.usuario==''" class="button" @click="showLogin">Login</button>
       <button v-show="props.usuario !=''" class="button" @click="logout">Logout</button>
     </div>
@@ -23,7 +23,8 @@ export default {
   
     setup(props, context) {
     let fallo = ref('');
-    var user = localStorage.usuario;
+    
+    var user = localStorage.email;
     let showFormLogin = ref(false);
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “Add a new recipe”. */

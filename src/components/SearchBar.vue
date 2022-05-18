@@ -6,7 +6,8 @@
        <button v-if="consulta != ''" @click="clearSearch">Clear Search</button>
     </form>
     </div>
-    <button @click="showForm">Add contact</button>
+    <button v-show="usuLogado !=''" @click="showForm">Add contact</button>
+    <p>{{usuLogado}}</p>
   </div>
 </template>
 
@@ -20,6 +21,7 @@ export default {
     //let showModal = ref(false);
     let showContactForm = ref(false);
     let consulta = ref('');
+    let usuLogado = localStorage.tokenId;
      /* Aquest mètode s'encarregarà de buidar l'element input del camp de cerca.
      S’haurà d’executar quan es faci clic al botó “Clear Search”. */
     const clearSearch = () => {
@@ -47,7 +49,7 @@ export default {
         context.emit("newVal", search);
       });*/
   
-    return { consulta, showForm, clearSearch, watch };
+    return { consulta, showForm, clearSearch, watch, usuLogado };
   },//FIN Setup()
 }
 </script>
