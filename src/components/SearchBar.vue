@@ -6,7 +6,7 @@
        <button v-if="consulta != ''" @click="clearSearch">Clear Search</button>
     </form>
     </div>
-    <button v-show="user" @click="showForm">Add contact</button>
+    <button v-show="props.isLogged" @click="showForm">Add contact</button>
   </div>
 </template>
 
@@ -14,8 +14,14 @@
 import { ref, watch } from "vue";
 export default {
     name: 'SearchBar',
-     emits: ['openContactForm', 'clearSearch', 'newVal'],
-  
+    props: {
+      isLogged: Boolean,
+      usuario:{
+        type: Object,
+      }
+    },
+    emits: ['openContactForm', 'clearSearch', 'newVal'],
+
   setup(props, context){
     let user = ref(localStorage.getItem('email'));
     let showContactForm = ref(false);
@@ -41,7 +47,7 @@ export default {
       context.emit("newVal", search);
     });
 
-    return { consulta, showForm, clearSearch, watch, user };
+    return { consulta, showForm, clearSearch, watch, props, user };
   },//FIN Setup()
 }
 </script>

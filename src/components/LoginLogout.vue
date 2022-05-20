@@ -1,12 +1,10 @@
 <template>
-  <div id="app">
-    <div class="header">
-      <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
-      <div class="app-name">Address Book</div>
-      <div v-show="user != ''">{{ user }}</div>
-      <button v-if="!user" class="button" @click="showLogin">Login</button>
-      <button v-else class="button" @click="logout">Logout</button>
-    </div>
+  <div class="header">
+    <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
+    <div class="app-name">Address Book</div>
+      <div v-show="!props.isLogged" class="user">{{ usuario.email }}</div>
+        <button v-show="!props.isLogged" class="login-button" @click="showLogin">Login</button>
+        <button v-show="props.isLogged" class="logout-button" @click="logout">Logout</button>
   </div>
 </template>
 <script>
@@ -15,21 +13,18 @@ export default {
   name: 'LoginLogout',
 
   props: {
-    usuario: Object,
+    isLogged: Boolean,
+    usuario: {
+      type: Object,
+    }
   },
   
   emits: ['openFormLogin', 'noLogged' ],
   
   setup(props, context) {
-    
-    let user = ref('');
-    let isLogged = ref(false)
+    let logado = ref(props.usuario);
     let showFormLogin = ref(false);
-    
-    user.value = localStorage.getItem('email');
-    console.log("USER: "+user.value)   
-    console.log("El email: "+user.value)
-    
+
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “L”. */
     const showLogin = () => {
@@ -39,10 +34,11 @@ export default {
 
     const logout = async () => {
       console.log("Logout");
-      context.emit('noLogged', isLogged.value = false);
+      localStorage.clear();
+      location.reload();
     }
    
-    return { showLogin, logout, props, user, isLogged };
+    return { showLogin, logout, props, logado };
 
   }//FIN Setup()
 }

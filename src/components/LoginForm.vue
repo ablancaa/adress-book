@@ -52,8 +52,9 @@ export default {
             context.emit('usuarioLogin', usuario);
             console.log(usuario.value.email);
             console.log(usuario.value.password);
+            //location.reload();
         }
-
+          
       return { login, closeForm, openForm, userName, userPassword }
      
     }
