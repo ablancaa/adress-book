@@ -121,25 +121,14 @@ export default {
         console.log("ERROR "+error);
       } 
       this.isLogged = true;
-      //Carga el listado de contactos del servidor sin autorizacion
-      try {
-        let response = await axios.get("http://localhost:3000/addresses");
-        this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
-        this.$emit('isLogged', this.usuario.email);
-        //location.reload();
-      } catch (error){
-        console.log("ERROR "+error);
-      } 
-      this.isLogged = true;
+      console.log("LOGADO: "+this.isLogged)
     },
 
-    async logout() {
+    async logout(estado) {
       console.log("Logout");
       localStorage.clear();
       localStorage.removeItem("email");   
-      
+      this.isLogged = estado;
       //Carga el listado de contactos del servidor
       try {
         let response = await axios.get("http://localhost:3000/addresses");

@@ -2,7 +2,7 @@
   <div class="header">
     <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
     <div class="app-name">Address Book</div>
-      <div v-show="!props.isLogged" class="user">{{ usuario.email }}</div>
+      <div v-show="!logado" class="user">{{ usuario.email }}</div>
         <button v-show="!props.isLogged" class="login-button" @click="showLogin">Login</button>
         <button v-show="props.isLogged" class="logout-button" @click="logout">Logout</button>
   </div>
@@ -19,11 +19,12 @@ export default {
     }
   },
   
-  emits: ['openFormLogin', 'noLogged' ],
+  emits: ['openFormLogin', 'isLogged' ],
   
   setup(props, context) {
-    let logado = ref(props.usuario);
+    let logado = ref(localStorage.getItem('email'));
     let showFormLogin = ref(false);
+    console.log("LOGADO loginLogout: "+logado.value)
 
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “L”. */
@@ -36,6 +37,7 @@ export default {
       console.log("Logout");
       localStorage.clear();
       location.reload();
+      context.emit('isLogged', false)
     }
    
     return { showLogin, logout, props, logado };
@@ -65,12 +67,13 @@ export default {
   max-height: 50px;
 }
 .header .app-name {
-  margin-left: 25px;
+  margin-left: -400px;
   font-weight: bold;
   font-size: 20px;
 }
 .user{
   float: right;
+  margin-right: -450px;
 }
 .header .user {
   display: flex;

@@ -150,6 +150,7 @@ export default {
               add.innerHTML += '<br/>';
           //Borro los campos del formulario    
               borrarCampos();
+              context.emit('closeFormContact', false);
           }//Fin if/else
     
         }//FIN createContact()
