@@ -7,6 +7,7 @@
                     </button>
                 </div>
                 <h1 class="">Login</h1>
+                <div id="error">{{  }}</div>
                 <div class="login-form-item">
                     <label>Usuario</label>
                     <input type="email" v-model="userName" placeholder=""/>
@@ -16,7 +17,7 @@
                     <input type="password" v-model="userPassword" placeholder=""/>
                 </div>
                 <div class="login-form-item">
-                    <button @submit.prevent="login">Login</button>
+                    <button @submit.prevent="login" @isLogged="login">Login</button>
                 </div>
        </form>  <!-- fin login-form  -->
     </div>
@@ -30,7 +31,8 @@ export default {
         let showModal = ref(false);
         let userName = ref('');
         let userPassword = ref('');
-
+        let mensajeError = ref('Usuario o Contraseña no validos');
+        var error = document.getElementById("error");
       /* Aquest mètode s'ha d'executar quan es faci clic al botó que conté el svg amb
          el símbol X. S'encarregarà de:
           ○ Emetre un esdeveniment close-modal  */
@@ -42,17 +44,29 @@ export default {
           context.emit('openForm', showModal.value = true);
         }//FIN closeForm()
 
-        const login = () =>{
-            let usuario = ref({
-                "email": userName.value,
-                "password": userPassword.value,
-            })
+        const login = (isLogged) => {
+          let usuario = ref({
+            "email": userName.value,
+            "password": userPassword.value,
+          })
+
+          if(isLogged){
+            console.log("login: es true"+isLogged);
+          }
             console.log("Emite LoginForm: ")
             console.log(usuario.value)
             context.emit('usuarioLogin', usuario);
             console.log(usuario.value.email);
             console.log(usuario.value.password);
             //location.reload();
+            if(isLogged){
+              console.log("LOGADO login() true: ");
+              console.log(isLogged);
+            } else {
+              console.log("LOGADO login() false: ");
+              console.log(isLogged);
+            }
+          
         }
           
       return { login, closeForm, openForm, userName, userPassword }

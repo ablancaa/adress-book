@@ -1,6 +1,6 @@
 <template>
   <div class="contact" :class="address.private && 'private'">
-    <button v-show="user" class="delete-contact" @click="deleteAddress">
+    <button v-show="user" class="delete-contact" @click="deleteAddress" @isLogged="isLogged">
       <img src="../assets/delete-button.svg" alt="Delete Contact" />
     </button>
     <h2 class="contact-title">{{ address.name }} {{ address.lastName }}</h2>
@@ -25,7 +25,8 @@ export default {
   emits: ['deleteAddress'],
     setup (props, context) {
 
-      let user = ref(localStorage.getItem('email'))
+      let user = ref(localStorage.getItem('isLogged'))
+      console.log(user);
       let contacto = ref(props.address);
       const deleteAddress = () => {
          console.log("FUNCIÓN: deleteAddress() desde CardContact emite => "+contacto.value.id);

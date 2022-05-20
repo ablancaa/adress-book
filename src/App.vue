@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
-<LoginLogout @openFormLogin="toggleFormLogin" :isLogged="isLogged" :usuario="usuario" @noLogged="logout"/>
+<LoginLogout @openFormLogin="toggleFormLogin" :isLogged="isLogged" @isLogged="logout" :usuario="usuario" @noLogged="logout"/>
 <SearchBar @openContactForm="toggleFormContact" :isLogged="isLogged" :usuario="usuario"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
@@ -37,6 +37,14 @@ export default {
       isLogged: false,
     }
   },
+  beforeCreate(){
+    if(localStorage.getItem('email') != true){
+      this.isLogged = false;
+      console.log("isLogged beforeCreate: "+ this.isLogged);
+    } else {
+      this.isLogged = true;
+    }
+  },
   async created() { 
     if(this.isLogged == true){
       //Carga el listado de contactos del servidor con autorizacion
@@ -58,7 +66,6 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-      this.isLogged = true;
     } else {
        //Carga el listado de contactos del servidor
       try {
@@ -69,11 +76,10 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-      this.isLogged = false;
+
     }
   },
   computed: {
-    
   /* Funció que:
       ○ Retorna el llistat de receptes en el cas que searchTerm estigui buit.
       ○ Retorna la col·lecció de receptes filtrada pels termes de cerca. Heu de buscar si
@@ -103,10 +109,16 @@ export default {
           localStorage.setItem('name', this.usuario.name);
           localStorage.setItem('email', this.usuario.email);
           localStorage.setItem('tokenId', this.usuario.tokenId);
+          localStorage.setItem('isLogged', true); 
           this.showModalLogin = false;
+          this.isLogged = true;
+          this.$emit('isLogged', true);
         })
       } catch (error) {
           console.log(error);
+          localStorage.setItem('isLogged', false);
+          this.$emit('isLogged', this.isLogged);
+          location.reload();
       }
       //Carga el listado de contactos del servidor con autorizacion
       try {
@@ -115,31 +127,38 @@ export default {
         this.addressList = response.data.data;
         console.log("el addressList")
         console.log(this.addressList);
-        this.$emit('isLogged', this.usuario.email);
+        this.$emit('isLogged', true);
         //location.reload();
       } catch (error){
         console.log("ERROR "+error);
       } 
-      this.isLogged = true;
+      console.log("LOGADO: "+this.isLogged)
+      // try {
+        // let response = await axios.get("http://localhost:3000/addresses");
+        // this.addressList = response.data.data;
+        // console.log("el addressList")
+        // console.log(this.addressList);
+        // this.$emit('isLogged', true);
+        // //location.reload();
+      // } catch (error){
+        // console.log("ERROR "+error);
+      // } 
       console.log("LOGADO: "+this.isLogged)
     },
 
     async logout(estado) {
       console.log("Logout");
-      localStorage.clear();
-      localStorage.removeItem("email");   
+      localStorage.clear(); 
       this.isLogged = estado;
+      console.log(estado);
       //Carga el listado de contactos del servidor
       try {
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
       } catch (error){
         console.log("ERROR "+error);
       }
         location.reload();
-        
     },
      /*Modifica l'estat del paràmetre showModal al seu invers.*/
     toggleFormLogin(info){

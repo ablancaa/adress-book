@@ -3,8 +3,8 @@
     <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
     <div class="app-name">Address Book</div>
       <div v-show="!logado" class="user">{{ usuario.email }}</div>
-        <button v-show="!props.isLogged" class="login-button" @click="showLogin">Login</button>
-        <button v-show="props.isLogged" class="logout-button" @click="logout">Logout</button>
+        <button v-show="!usu" class="login-button" @click="showLogin">Login</button>
+        <button v-show="usu" class="logout-button" @click="logout">Logout</button>
   </div>
 </template>
 <script>
@@ -23,8 +23,9 @@ export default {
   
   setup(props, context) {
     let logado = ref(localStorage.getItem('email'));
+    let usu = ref(localStorage.getItem('isLogged'));
     let showFormLogin = ref(false);
-    console.log("LOGADO loginLogout: "+logado.value)
+    console.log("LOGADO loginLogout: "+props.isLogged)
 
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “L”. */
@@ -36,11 +37,10 @@ export default {
     const logout = async () => {
       console.log("Logout");
       localStorage.clear();
-      location.reload();
       context.emit('isLogged', false)
     }
    
-    return { showLogin, logout, props, logado };
+    return { showLogin, logout, props, logado, usu };
 
   }//FIN Setup()
 }
