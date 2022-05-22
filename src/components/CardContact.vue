@@ -8,7 +8,7 @@
         <span class="contact-address">{{ address.address }} {{ address.city }} {{ address.state }} - {{ address.zip }} - {{address.country}}</span>
     </div><!-- FIN contact-info -->
     <div class="contact-info">
-      <span class="contact-info-value">{{ address.email }} {{ address.phone }}</span>
+      <span class="contact-info-value">{{ address.email }} - {{ address.phone }}</span>
     </div>
   </div>
 </template>
