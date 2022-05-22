@@ -3,8 +3,8 @@
     <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
     <div class="app-name">Address Book</div>
       <div v-show="!logado" class="user">{{ usuario.email }}</div>
-        <button v-show="!usu" class="login-button" @click="showLogin">Login</button>
-        <button v-show="usu" class="logout-button" @click="logout">Logout</button>
+        <button v-show="!isLogged" class="login-button" @click="showLogin">Login</button>
+        <button v-show="isLogged" class="logout-button" @click="logout">Logout</button>
   </div>
 </template>
 <script>

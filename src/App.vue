@@ -37,16 +37,9 @@ export default {
       isLogged: false,
     }
   },
-  beforeCreate(){
-    if(localStorage.getItem('email') != true){
-      this.isLogged = false;
-      console.log("isLogged beforeCreate: "+ this.isLogged);
-    } else {
-      this.isLogged = true;
-    }
-  },
+ 
   async created() { 
-    if(this.isLogged == true){
+    if(localStorage.isLogged){
       //Carga el listado de contactos del servidor con autorizacion
       try {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
@@ -59,6 +52,7 @@ export default {
       }  
       //Carga el listado de contactos del servidor
       try {
+        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
         console.log("el addressList")
@@ -66,9 +60,10 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-    } else {
+    } else if(!localStorage.isLogged) {
        //Carga el listado de contactos del servidor
       try {
+        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
         console.log("el addressList")
@@ -133,16 +128,18 @@ export default {
         console.log("ERROR "+error);
       } 
       console.log("LOGADO: "+this.isLogged)
-      // try {
-        // let response = await axios.get("http://localhost:3000/addresses");
-        // this.addressList = response.data.data;
-        // console.log("el addressList")
-        // console.log(this.addressList);
-        // this.$emit('isLogged', true);
-        // //location.reload();
-      // } catch (error){
-        // console.log("ERROR "+error);
-      // } 
+      try {
+        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+
+       let response = await axios.get("http://localhost:3000/addresses");
+       this.addressList = response.data.data;
+       console.log("el addressList")
+       console.log(this.addressList);
+       this.$emit('isLogged', true);
+       //location.reload();
+       } catch (error){
+          console.log("ERROR "+error);
+       } 
       console.log("LOGADO: "+this.isLogged)
     },
 
