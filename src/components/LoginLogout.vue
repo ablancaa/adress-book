@@ -9,17 +9,14 @@
 </template>
 <script>
 import { userStore } from '@/store/user'
-import { ref ,onMounted, computed } from "vue";
+import { ref } from "vue";
 export default {
   name: 'LoginLogout',
   emits: ['openFormLogin', 'isLogged' ],
   
   setup(props, context) {
     const store = userStore();
-    
     console.log(store.name);
-
-    store.email;
     let showFormLogin = ref(false);  
 
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
@@ -28,7 +25,7 @@ export default {
       context.emit('openFormLogin', showFormLogin.value = true);
     }
 
-    const logout = async () => {
+    const logout = () => {
       console.log("Logout");
       context.emit('isLogged', false)
     }

@@ -105,14 +105,6 @@ export default {
           var add = document.getElementById("add");
           //Valida que los campos no esten vacíos
           if(contact.value.id == '' || contact.value.name == '' || contact.value.lastName == '' || contact.value.email == '') {
-          //Chivatos de campos vacios
-            console.log(contact.value.id);
-            console.log("Id vacio!!");
-            console.log("Nombre Vacio!!");
-            console.log("Apellido Vacio!!");
-            console.log("Email Vacio!!");
-          //Pinta en pantalla el error
-           // error.innerHTML = 'The fields Title, Ingredients and Directions are required <br/>';
             error.innerHTML = mensajeError.value;
             error.innerHTML += '<br/>';
             add.innerHTML = '';
@@ -140,9 +132,6 @@ export default {
               };
           //Emite el contacto nuevo a App
              context.emit('nuevoContacto', contacto);
-          //Muestra datos de receta por consola
-              console.log("Emitido nuevo contacto");
-              console.log(contacto);
           //Pongo el Div de error en blanco
               error.innerHTML = '';
           //Indico en el Div add que se añade el contacto nuevo

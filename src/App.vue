@@ -3,8 +3,8 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
-<LoginLogout @openFormLogin="toggleFormLogin" @usuarioLogin="login" @isLogged="logout" :usuario="usuario" @noLogged="logout"/>
-<SearchBar @openContactForm="toggleFormContact" :isLogged="isLogged" :usuario="usuario"/>
+<LoginLogout @openFormLogin="toggleFormLogin" @usuarioLogin="login" @isLogged="logout" @noLogged="logout"/>
+<SearchBar @openContactForm="toggleFormContact"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
 <ContactList :addressList="ListFiltered" @deleteAddress="deleteAddress"/>
@@ -34,22 +34,12 @@ export default {
       showModalContact: false,
       usuario: [],
       searchTerm: '',
-      isLogged: false,
+      //isLogged: false,
     }
   },
  
   async created() { 
     const store = userStore();
-      //Carga el listado de contactos del servidor con autorizacion
-      try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
-        let response = await axios.get("http://localhost:3000/addresses");
-        this.addressList = response.data.data;
-        //console.log("el addressList")
-        //console.log(this.addressList);
-      } catch (error){
-        console.log("ERROR "+error);
-      }  
       //Carga el listado de contactos del servidor
       try {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
@@ -60,7 +50,7 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-      document.body.onload = localStorage.getItem('isLogged');
+      //document.body.onload = localStorage.getItem('isLogged');
   },
   computed: {
   /* Funció que:
@@ -90,7 +80,7 @@ export default {
         .then(response =>{
           axios.defaults.headers.common['authorization'] = response.data.data;
           this.usuario = response.data.data;
-          
+          //Acceso a pinia para guardar los datos
           store.name = response.data.data.name;
           store.lastName = response.data.data.lastName;
           store.email = response.data.data.email;

@@ -6,24 +6,19 @@
        <button v-if="consulta != ''" @click="clearSearch">Clear Search</button>
     </form>
     </div>
-    <button v-show="props.isLogged" @click="showForm">Add contact</button>
+    <button v-show="store.logged" @click="showForm">Add contact</button>
   </div>
 </template>
 
 <script>
 import { ref, watch } from "vue";
+import { userStore } from '@/store/user'
 export default {
     name: 'SearchBar',
-    props: {
-      isLogged: Boolean,
-      usuario:{
-        type: Object,
-      }
-    },
     emits: ['openContactForm', 'clearSearch', 'newVal'],
 
   setup(props, context){
-    let user = ref(localStorage.getItem('email'));
+    const store = userStore();
     let showContactForm = ref(false);
     let consulta = ref('');
      /* Aquest mètode s'encarregarà de buidar l'element input del camp de cerca.
@@ -47,7 +42,7 @@ export default {
       context.emit("newVal", search);
     });
 
-    return { consulta, showForm, clearSearch, watch, props, user };
+    return { consulta, store, clearSearch, showForm, watch };
   },//FIN Setup()
 }
 </script>

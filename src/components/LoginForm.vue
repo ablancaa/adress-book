@@ -7,7 +7,7 @@
                     </button>
                 </div>
                 <h1 class="">Login</h1>
-                <div id="error">{{  }}</div>
+                <div v-if="!store.logged">{{ mensajeError }}</div>
                 <div class="login-form-item">
                     <label>Usuario</label>
                     <input type="email" v-model="userName" placeholder=""/>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { userStore } from '@/store/user'
 import { ref } from "vue";
 export default {
     emits:['closeForm', 'openForm', 'usuarioLogin'],
@@ -31,7 +32,8 @@ export default {
         let showModal = ref(false);
         let userName = ref('');
         let userPassword = ref('');
-        //let mensajeError = ref('Usuario o Contraseña no validos');
+        let store = userStore();
+        let mensajeError = ref('');
         //var error = document.getElementById("error");
       /* Aquest mètode s'ha d'executar quan es faci clic al botó que conté el svg amb
          el símbol X. S'encarregarà de:
@@ -55,7 +57,7 @@ export default {
             //location.reload();
         }
           
-      return { login, closeForm, openForm, userName, userPassword }
+      return { userName, userPassword, store, mensajeError, login, closeForm, openForm }
      
     }
 }
