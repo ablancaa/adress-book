@@ -32,9 +32,7 @@ export default {
       addressList: [],
       showModalLogin: false,
       showModalContact: false,
-      usuario: [],
       searchTerm: '',
-      //isLogged: false,
     }
   },
  
@@ -42,15 +40,12 @@ export default {
     const store = userStore();
       //Carga el listado de contactos del servidor
       try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
-        //console.log("el addressList")
-        //console.log(this.addressList);
       } catch (error){
         console.log("ERROR "+error);
       }
-      //document.body.onload = localStorage.getItem('isLogged');
   },
   computed: {
   /* Funció que:
@@ -58,10 +53,11 @@ export default {
       ○ Retorna la col·lecció de receptes filtrada pels termes de cerca. Heu de buscar si
         searchTerms forma part del nom de la recepta o dels ingredients a cada recepta. */
      ListFiltered() {
-      let listaFiltrada = [];
+      const store = userStore();
+      let listaFiltrada = store.listaPrivada;
       
       if(this.searchTerm != ''){
-        listaFiltrada = this.addressList.filter(address => 
+        listaFiltrada = this.listaFiltrada.filter(address => 
           address.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
           address.email.includes(this.searchTerm.toLowerCase()),
         )
@@ -70,7 +66,6 @@ export default {
       }
       return listaFiltrada;
     },
-    
   },     
   methods: {
     async login (userLogin){
@@ -79,54 +74,48 @@ export default {
         await axios.post("http://localhost:3000/login", userLogin.value)
         .then(response =>{
           axios.defaults.headers.common['authorization'] = response.data.data;
-          this.usuario = response.data.data;
-          //Acceso a pinia para guardar los datos
+          store.usuario = response.data.data;
+          
+          //Acceso a pinia para guardar los datos del usuario
+          store.usuario = response.data.data.name;
           store.name = response.data.data.name;
           store.lastName = response.data.data.lastName;
           store.email = response.data.data.email;
           store.token = response.data.data.tokenId;
           store.logged = true;
-         
           this.showModalLogin = false;
-          this.isLogged = true;
-          this.$emit('isLogged', true);
         })
       } catch (error) {
           console.log(error);
-          localStorage.setItem('isLogged', false);
-          this.$emit('isLogged', this.isLogged);
           location.reload();
       }
       //Carga el listado de contactos del servidor con autorizacion
       try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
         store.listaPrivada = response.data.data;
         console.log("el addressList")
         console.log(this.addressList);
-        this.$emit('isLogged', true);
-        //location.reload();
       } catch (error){
         console.log("ERROR "+error);
       } 
-      console.log("LOGADO: "+this.isLogged)
     },
 
-    async logout(estado) {
-      console.log("Logout");
-      localStorage.clear(); 
-      this.isLogged = estado;
-      console.log(estado);
-      //Carga el listado de contactos del servidor
+    async logout(logout) {
+      const store = userStore();
+      store.logged = logout;
+      //Carga el listado de contactos del servidor sin autorización
       try {
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
+        store.listaPrivada
       } catch (error){
         console.log("ERROR "+error);
       }
         location.reload();
     },
+
      /*Modifica l'estat del paràmetre showModal al seu invers.*/
     toggleFormLogin(info){
       if (info == true){
@@ -144,10 +133,10 @@ export default {
       }
     },
     async createContact(address){
-      console.log("Entra en create contact");
-      console.log(address);
+      const store = userStore();
+      //Añade el contacto a la lista del servidor
       try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.post("http://localhost:3000/address", address );
         console.log(response);
         console.log("Contacto añadido: "+address);
@@ -156,24 +145,20 @@ export default {
       }
       //Carga el listado de contactos del servidor con autorizacion
       try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
       } catch (error){
         console.log("ERROR "+error);
       }
     },
 
     async deleteAddress(id){
+      const store = userStore();
       try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
+        axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.delete("http://localhost:3000/address", { data: { id } });
-        //console.log(response);
-        console.log(this.usuario.tokenId)
         console.log(response);
-        console.log("ID a borrar desde App: "+id);
       } catch (error){
         console.log(error);
       }
@@ -181,8 +166,6 @@ export default {
       try {
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
       } catch (error){
         console.log("ERROR "+error);
       }

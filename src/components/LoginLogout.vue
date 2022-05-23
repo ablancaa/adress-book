@@ -26,7 +26,6 @@ export default {
     }
 
     const logout = () => {
-      console.log("Logout");
       context.emit('isLogged', false)
     }
 
