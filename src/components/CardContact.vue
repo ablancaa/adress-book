@@ -26,7 +26,7 @@ export default {
     setup (props, context) {
 
       let user = ref(localStorage.getItem('isLogged'))
-      console.log(user);
+      //console.log(user);
       let contacto = ref(props.address);
       const deleteAddress = () => {
          console.log("FUNCIÓN: deleteAddress() desde CardContact emite => "+contacto.value.id);

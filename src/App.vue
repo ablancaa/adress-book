@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
-<LoginLogout @openFormLogin="toggleFormLogin" :isLogged="isLogged" @isLogged="logout" :usuario="usuario" @noLogged="logout"/>
+<LoginLogout @openFormLogin="toggleFormLogin" @usuarioLogin="login" @isLogged="logout" :usuario="usuario" @noLogged="logout"/>
 <SearchBar @openContactForm="toggleFormContact" :isLogged="isLogged" :usuario="usuario"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
@@ -39,14 +39,13 @@ export default {
   },
  
   async created() { 
-    if(localStorage.isLogged){
       //Carga el listado de contactos del servidor con autorizacion
       try {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
+        //console.log("el addressList")
+        //console.log(this.addressList);
       } catch (error){
         console.log("ERROR "+error);
       }  
@@ -55,24 +54,12 @@ export default {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
+        //console.log("el addressList")
+        //console.log(this.addressList);
       } catch (error){
         console.log("ERROR "+error);
       }
-    } else if(!localStorage.isLogged) {
-       //Carga el listado de contactos del servidor
-      try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
-        let response = await axios.get("http://localhost:3000/addresses");
-        this.addressList = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
-      } catch (error){
-        console.log("ERROR "+error);
-      }
-
-    }
+      document.body.onload = localStorage.getItem('isLogged');
   },
   computed: {
   /* Funció que:
@@ -127,19 +114,6 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       } 
-      console.log("LOGADO: "+this.isLogged)
-      try {
-        axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
-
-       let response = await axios.get("http://localhost:3000/addresses");
-       this.addressList = response.data.data;
-       console.log("el addressList")
-       console.log(this.addressList);
-       this.$emit('isLogged', true);
-       //location.reload();
-       } catch (error){
-          console.log("ERROR "+error);
-       } 
       console.log("LOGADO: "+this.isLogged)
     },
 

@@ -3,8 +3,8 @@
     <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
     <div class="app-name">Address Book</div>
       <div v-show="!logado" class="user">{{ usuario.email }}</div>
-        <button v-show="!isLogged" class="login-button" @click="showLogin">Login</button>
-        <button v-show="isLogged" class="logout-button" @click="logout">Logout</button>
+        <button v-show="!logado" class="login-button" @click="showLogin">Login</button>
+        <button v-show="logado" class="logout-button" @click="logout">Logout</button>
   </div>
 </template>
 <script>
@@ -13,7 +13,6 @@ export default {
   name: 'LoginLogout',
 
   props: {
-    isLogged: Boolean,
     usuario: {
       type: Object,
     }
@@ -25,7 +24,8 @@ export default {
     let logado = ref(localStorage.getItem('email'));
     let usu = ref(localStorage.getItem('isLogged'));
     let showFormLogin = ref(false);
-    console.log("LOGADO loginLogout: "+props.isLogged)
+    
+    console.log("LOGADO loginLogout: "+logado.value, usu.value)
 
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “L”. */

@@ -31,8 +31,8 @@ export default {
         let showModal = ref(false);
         let userName = ref('');
         let userPassword = ref('');
-        let mensajeError = ref('Usuario o Contraseña no validos');
-        var error = document.getElementById("error");
+        //let mensajeError = ref('Usuario o Contraseña no validos');
+        //var error = document.getElementById("error");
       /* Aquest mètode s'ha d'executar quan es faci clic al botó que conté el svg amb
          el símbol X. S'encarregarà de:
           ○ Emetre un esdeveniment close-modal  */
@@ -44,29 +44,15 @@ export default {
           context.emit('openForm', showModal.value = true);
         }//FIN closeForm()
 
-        const login = (isLogged) => {
+        const login = () => {
           let usuario = ref({
             "email": userName.value,
             "password": userPassword.value,
           })
-
-          if(isLogged){
-            console.log("login: es true"+isLogged);
-          }
             console.log("Emite LoginForm: ")
             console.log(usuario.value)
             context.emit('usuarioLogin', usuario);
-            console.log(usuario.value.email);
-            console.log(usuario.value.password);
             //location.reload();
-            if(isLogged){
-              console.log("LOGADO login() true: ");
-              console.log(isLogged);
-            } else {
-              console.log("LOGADO login() false: ");
-              console.log(isLogged);
-            }
-          
         }
           
       return { login, closeForm, openForm, userName, userPassword }
