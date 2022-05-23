@@ -8,7 +8,7 @@
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
 <ContactList :addressList="ListFiltered" @deleteAddress="deleteAddress"/>
-  <router-view/>
+  <!-- <router-view/> -->
 </template>
 <script>
 //import axios from 'vue';
@@ -18,7 +18,7 @@ import FormContact from './components/FormContact.vue';
 import LoginForm from './components/LoginForm.vue';
 import LoginLogout from './components/LoginLogout.vue';
 import ContactList from './components/ContactList.vue';
-
+import { userStore } from '@/store/user'
 export default {
   components: { 
   SearchBar,
@@ -39,6 +39,7 @@ export default {
   },
  
   async created() { 
+    const store = userStore();
       //Carga el listado de contactos del servidor con autorizacion
       try {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
@@ -83,15 +84,19 @@ export default {
   },     
   methods: {
     async login (userLogin){
+      const store = userStore();
       try{
         await axios.post("http://localhost:3000/login", userLogin.value)
         .then(response =>{
           axios.defaults.headers.common['authorization'] = response.data.data;
           this.usuario = response.data.data;
-          localStorage.setItem('name', this.usuario.name);
-          localStorage.setItem('email', this.usuario.email);
-          localStorage.setItem('tokenId', this.usuario.tokenId);
-          localStorage.setItem('isLogged', true); 
+          
+          store.name = response.data.data.name;
+          store.lastName = response.data.data.lastName;
+          store.email = response.data.data.email;
+          store.token = response.data.data.tokenId;
+          store.logged = true;
+         
           this.showModalLogin = false;
           this.isLogged = true;
           this.$emit('isLogged', true);
@@ -107,6 +112,7 @@ export default {
         axios.defaults.headers.common['authorization'] = this.usuario.tokenId;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
+        store.listaPrivada = response.data.data;
         console.log("el addressList")
         console.log(this.addressList);
         this.$emit('isLogged', true);

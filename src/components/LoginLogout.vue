@@ -2,45 +2,38 @@
   <div class="header">
     <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
     <div class="app-name">Address Book</div>
-      <div v-show="!logado" class="user">{{ usuario.email }}</div>
-        <button v-show="!logado" class="login-button" @click="showLogin">Login</button>
-        <button v-show="logado" class="logout-button" @click="logout">Logout</button>
+      <div v-show="store.email" class="user">{{ store.email }}</div>
+        <button v-show="!store.email" class="login-button" @click="showLogin">Login</button>
+        <button v-show="store.email" class="logout-button" @click="logout">Logout</button>
   </div>
 </template>
 <script>
-import { ref } from "vue";
+import { userStore } from '@/store/user'
+import { ref ,onMounted, computed } from "vue";
 export default {
   name: 'LoginLogout',
-
-  props: {
-    usuario: {
-      type: Object,
-    }
-  },
-  
   emits: ['openFormLogin', 'isLogged' ],
   
   setup(props, context) {
-    let logado = ref(localStorage.getItem('email'));
-    let usu = ref(localStorage.getItem('isLogged'));
-    let showFormLogin = ref(false);
+    const store = userStore();
     
-    console.log("LOGADO loginLogout: "+logado.value, usu.value)
+    console.log(store.name);
+
+    store.email;
+    let showFormLogin = ref(false);  
 
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
-    d’executar quan es faci clic al botó “L”. */
+    d’executar quan es faci clic al botó “Login”. */
     const showLogin = () => {
       context.emit('openFormLogin', showFormLogin.value = true);
-      console.log("Emitido de LoginLogout: "+showFormLogin.value);
     }
 
     const logout = async () => {
       console.log("Logout");
-      localStorage.clear();
       context.emit('isLogged', false)
     }
-   
-    return { showLogin, logout, props, logado, usu };
+
+    return { showLogin, logout, store };
 
   }//FIN Setup()
 }
@@ -73,7 +66,7 @@ export default {
 }
 .user{
   float: right;
-  margin-right: -450px;
+  margin-right: -570px;
 }
 .header .user {
   display: flex;

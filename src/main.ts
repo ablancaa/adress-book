@@ -1,13 +1,14 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import App from './App.vue'
-
+const pinia = createPinia();
 import './registerServiceWorker'
 
-import router from './router'
+//import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-const pinia = createPinia()
-createApp(App).use(router, pinia, VueAxios, axios).mount('#app')
+
+
+
+createApp(App).use( pinia, VueAxios, axios).mount('#app')

@@ -1,6 +1,6 @@
 <template>
   <div class="contact" :class="address.private && 'private'">
-    <button v-show="user" class="delete-contact" @click="deleteAddress" @isLogged="isLogged">
+    <button v-show="store.logged" class="delete-contact" @click="deleteAddress" >
       <img src="../assets/delete-button.svg" alt="Delete Contact" />
     </button>
     <h2 class="contact-title">{{ address.name }} {{ address.lastName }}</h2>
@@ -15,6 +15,7 @@
 
 <script>
 import { ref } from 'vue'; 
+import { userStore } from '@/store/user'
 export default {
    props: {
     address: {
@@ -24,16 +25,18 @@ export default {
   },
   emits: ['deleteAddress'],
     setup (props, context) {
-
-      let user = ref(localStorage.getItem('isLogged'))
+      const store = userStore();
+      store.logged;
+     
       //console.log(user);
       let contacto = ref(props.address);
+      
       const deleteAddress = () => {
          console.log("FUNCIÓN: deleteAddress() desde CardContact emite => "+contacto.value.id);
          context.emit("deleteAddress", contacto.value.id);
       }//FIN deleteRecipe()
 
-      return { deleteAddress, user }
+      return { deleteAddress, store }
 
     }
 }
