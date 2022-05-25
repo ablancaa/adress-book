@@ -8,16 +8,27 @@ export const userStore = defineStore('user', {
         lastName: '',
         email: '',
         token: '',
-        listaPrivada: [],
-        listaPublica: []
+        //listaPrivada: [],
+        //listaPublica: []
     }),
     actions: {
         usuario: (state) => state.user
     },
     getters: {
         getName: (state) => { 
-            return state.user = state;
-        }
-     
+            return state.name;
+        },
+        getlastName: (state) => { 
+            return state.lastName;
+        },
+        getEmail: (state) => { 
+            return state.email;
+        },
+        getToken: (state) => { 
+            return state.token;
+        },
+        getLogged: (state) => { 
+            return state.logged;
+        },
     },
 })
