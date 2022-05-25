@@ -77,17 +77,19 @@ export default {
         .then(response =>{
           axios.defaults.headers.common['authorization'] = response.data.data;          
           //Acceso a pinia para guardar los datos del usuario
-          
           store.name = response.data.data.name;
           store.lastName = response.data.data.lastName;
           store.email = response.data.data.email;
           store.token = response.data.data.tokenId;
           store.logged = true;
+          if(store.logged){
           this.showModalLogin = false;
+          this.$emit('isLogged', store.logged)
+          } 
         })
       } catch (error) {
+          //this.$emit('isLogged', store.logged = false)
           console.log(error);
-          location.reload();
       }
       //Carga el listado de contactos del servidor con autorizacion
       try {
@@ -166,7 +168,6 @@ export default {
 
     setSearchTerm(info){
       this.searchTerm = info;
-      console.log("setSearchInfo() en App: "+this.searchTerm);     
     },
   }
 }

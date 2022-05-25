@@ -1,5 +1,6 @@
 <template>
   <div class="contact" :class="address.private && 'private'">
+  <div class="contacto-privado" v-show="address.private"><img src="@/assets/candado.png" /></div>
     <button v-show="store.logged" class="delete-contact" @click="deleteAddress" >
       <img src="../assets/delete-button.svg" alt="Delete Contact" />
     </button>
@@ -86,5 +87,18 @@ export default {
 }
 .delete-contact img {
   width: 20px;
+}
+
+.contacto-privado {
+position: absolute;
+top: 5px;
+left:15px;
+background: transparent;
+border: 0;
+padding: 0;
+cursor: pointer;
+}
+.contacto-privado img {
+width: 25px;
 }
 </style>

@@ -25,19 +25,17 @@ export default {
      S’haurà d’executar quan es faci clic al botó “Clear Search”. */
     const clearSearch = () => {
       consulta.value = document.getElementById("consulta").value="";
-      console.log("Función clearSearch(){} Campo reseteado");
     }
       /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “Add a new recipe”. */
     const showForm = () => {
       context.emit('openContactForm', showContactForm.value = true);
-      console.log("Emitido de SearchBar: "+showContactForm.value);
     }
      /*Aquest mètode s'executarà cada vegada que es modifiqui l'element
      input del camp de cerca (cada vegada que es teclegi una lletra). Emetrà un esdeveniment
      'search' amb el contingut del camp de cerca */
     const search = ref(consulta);   
-    watch(search, (currentValue) => {
+    watch((search), (currentValue) => {
       console.log("Valor actual en la SearchBar: "+currentValue);
       context.emit("newVal", search);
     });
