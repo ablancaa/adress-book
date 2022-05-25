@@ -2,7 +2,7 @@
   <div class="header">
     <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
     <div class="app-name">Address Book</div>
-      <div v-show="store.email" class="user"><p>{{ store.email }}</p></div>
+      <div v-show="store.email" class="user"><p>¡Hola! - {{ store.email }}</p></div>
         <button v-show="!store.email" class="login-button" @click="showLogin">Login</button>
         <button v-show="store.email" class="logout-button" @click="logout">Logout</button>
   </div>
@@ -96,7 +96,7 @@ p {
 @keyframes slidein {
   from {
     margin-left: 64%;
-    width: 300%;
+    width: 100%;
   }
 
   to {
