@@ -8,6 +8,7 @@
                 </div>
                 <h1 class="">Login</h1>
                 <div class="error"><p>{{ mensajeError }}</p></div>
+                <div class="loginOk"><p>{{ mensajeOk }}</p></div>
                 <div class="login-form-item">
                     <label>Usuario</label>
                     <input type="email" v-model="userName" placeholder=""/>
@@ -34,6 +35,7 @@ export default {
         let userPassword = ref('');
         let store = userStore();
         let mensajeError = ref('');
+        let mensajeOk = ref('');
         //var error = document.getElementById("error");
       /* Aquest mètode s'ha d'executar quan es faci clic al botó que conté el svg amb
          el símbol X. S'encarregarà de:
@@ -47,25 +49,29 @@ export default {
         }//FIN closeForm()
 
         const login = () => {
-          mensajeError.value ='';
-          console.log(store.logged)
-          if(userName.value == '' || userPassword.value == '' ){
-            mensajeError.value =' El usuario o el password no puede estar vacío '
-          } else
-          if (!store.logged){
+          //mensajeError.value ='';
+          if (userName.value == '' || userPassword.value == '' ) {
+            mensajeError.value =' El usuario o el password no puede estar vacío ';
+          } else if (!store.logged) {
             mensajeError.value = ' Fallo en autentificación ';
-          } 
+          } else if (store.name){
+            mensajeOk.value = ' Bienvenido '
+          }
+          
+          
+          
+          
+          
+
           let usuario = ref({
             "email": userName.value,
             "password": userPassword.value,
           })
-            console.log("Emite LoginForm: ")
-            console.log(usuario.value)
             context.emit('usuarioLogin', usuario);  
         }
           
-      return { userName, userPassword, store, mensajeError, 
-               login, closeForm, openForm }
+      return { userName, userPassword, store, mensajeError, mensajeOk,
+              login, closeForm, openForm }
      
     }
 }
@@ -131,6 +137,10 @@ export default {
 }
 .error {
   color: red;
+  margin-bottom: 20px;
+}
+.loginOk {
+  color: rgb(6, 240, 45);
   margin-bottom: 20px;
 }
 

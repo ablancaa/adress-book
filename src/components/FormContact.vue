@@ -3,7 +3,7 @@
         <div class="contact-form">
             <div class="contact-form-header">
                 <h2>Add a new Contact</h2>
-                <div id="errores">
+                <div class="error" id="errores">
                     <p>{{  }}</p>
                 </div>
                 <div id="add">

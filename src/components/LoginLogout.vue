@@ -26,6 +26,7 @@ export default {
 
     const logout = () => {
       context.emit('isLogged', false)
+      store.logged = false;
     }
 
     return { showLogin, logout, store };

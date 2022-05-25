@@ -88,7 +88,6 @@ export default {
           } 
         })
       } catch (error) {
-          //this.$emit('isLogged', store.logged = false)
           console.log(error);
       }
       //Carga el listado de contactos del servidor con autorizacion
@@ -110,7 +109,7 @@ export default {
       location.reload();
     },
 
-     /*Modifica l'estat del paràmetre showModal al seu invers.*/
+    /* Muestra ventana modal Login */
     toggleFormLogin(info){
       if (info == true){
         this.showModalLogin = true;
@@ -118,7 +117,7 @@ export default {
         this.showModalLogin = false;
       }
     },
-
+    /* Muestra ventana modal ContactForm */
     toggleFormContact(info){
       if (info == true) {
         this.showModalContact = true;
