@@ -91,7 +91,6 @@ export default {
         axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
-        store.listaPrivada = response.data.data;
       } catch (error){
         console.log("ERROR "+error);
       } 
