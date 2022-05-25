@@ -25,8 +25,7 @@ export default {
     }
 
     const logout = () => {
-      context.emit('isLogged', false)
-      store.logged = false;
+      context.emit('isLogged', store.logged = false)
     }
 
     return { showLogin, logout, store };
@@ -77,6 +76,7 @@ export default {
   cursor: pointer;
   margin-left: 15px;
 }
+
 button {
   margin-left: 10px;
   padding: 10px;
@@ -87,8 +87,9 @@ button {
   background: #4caf50;
   color: #fff;
 }
+
 p {
-  animation-duration: 3s;
+  animation-duration: 2s;
   animation-name: slidein;
 }
 

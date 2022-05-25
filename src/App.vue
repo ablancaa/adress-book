@@ -1,9 +1,9 @@
 <template>
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="/public/img/favicon-16x16.png"/>
 </head>
-<LoginLogout @openFormLogin="toggleFormLogin" @usuarioLogin="login" @isLogged="logout" @noLogged="logout"/>
+<LoginLogout @openFormLogin="toggleFormLogin" @usuarioLogin="login" @isLogged="logout"/>
 <SearchBar @openContactForm="toggleFormContact" @newVal="setSearchTerm"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
@@ -19,13 +19,14 @@ import LoginForm from './components/LoginForm.vue';
 import LoginLogout from './components/LoginLogout.vue';
 import ContactList from './components/ContactList.vue';
 import { userStore } from '@/store/user'
+
 export default {
   components: { 
-  SearchBar,
-  LoginLogout,
-  LoginForm,
-  FormContact,
-  ContactList: ContactList
+    SearchBar,
+    LoginLogout,
+    LoginForm,
+    FormContact,
+    ContactList: ContactList
   },
   data(){
     return{
@@ -68,7 +69,7 @@ export default {
         }
         return this.addressList;
       },
-  }, //FIN computed
+  },//FIN computed
   methods: {
     async login (userLogin){
       const store = userStore();
@@ -82,10 +83,7 @@ export default {
           store.email = response.data.data.email;
           store.token = response.data.data.tokenId;
           store.logged = true;
-          if(store.logged){
           this.showModalLogin = false;
-          this.$emit('isLogged', store.logged)
-          } 
         })
       } catch (error) {
           console.log(error);
@@ -96,8 +94,6 @@ export default {
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
         store.listaPrivada = response.data.data;
-        console.log("el addressList")
-        console.log(this.addressList);
       } catch (error){
         console.log("ERROR "+error);
       } 
