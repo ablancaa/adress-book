@@ -53,13 +53,10 @@ export default {
       ○ Retorna el llistat de contactes en el cas que searchTerm estigui buit.
       ○ Retorna la col·lecció de contactes filtrada pels termes de cerca. */
       ListFiltered() {
-  
-      let listaFiltrada = this.addressList;
-      //const store = userStore()
       if (!this.searchTerm) {
-        return this.addressList
+        return this.addressList;
       } 
-        return listaFiltrada.filter((address) => {
+        return this.addressList.filter((address) => {
           return (
             address.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             address.lastName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -67,8 +64,8 @@ export default {
             address.phone.toLowerCase().includes(this.searchTerm.toLowerCase())
           );
         });
-      },
-  },
+      }, 
+  }, 
   methods: {
     async login (userLogin){
       const store = userStore();
