@@ -4,7 +4,7 @@
     <link rel="shortcut icon" type="image/png" href="/public/favicon.png"/>
 </head>
 <LoginLogout @openFormLogin="toggleFormLogin" @usuarioLogin="login" @isLogged="logout" @noLogged="logout"/>
-<SearchBar @openContactForm="toggleFormContact"/>
+<SearchBar @openContactForm="toggleFormContact" @newVal="setSearchTerm"/>
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
 <ContactList :addressList="ListFiltered" @deleteAddress="deleteAddress"/>
@@ -40,9 +40,9 @@ export default {
     const store = userStore();
       //Carga el listado de contactos del servidor
       try {
-        axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
+        store.listaPublica = response.data.data;
       } catch (error){
         console.log("ERROR "+error);
         console.log(store.token);
@@ -53,19 +53,22 @@ export default {
       ○ Retorna el llistat de contactes en el cas que searchTerm estigui buit.
       ○ Retorna la col·lecció de contactes filtrada pels termes de cerca. */
       ListFiltered() {
-      if (!this.searchTerm) {
-        return this.addressList;
-      } 
+    
+       if (!this.searchTerm) {
+          return this.addressList;
+        } else if (this.searchTerm) {
         return this.addressList.filter((address) => {
           return (
             address.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             address.lastName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             address.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            address.phone.toLowerCase().includes(this.searchTerm.toLowerCase())
+            address.phone.toString().includes(this.searchTerm.toLowerCase())
           );
         });
-      }, 
-  }, 
+        }
+        return this.addressList;
+      },
+  }, //FIN computed
   methods: {
     async login (userLogin){
       const store = userStore();
@@ -163,9 +166,6 @@ export default {
 
     setSearchTerm(info){
       this.searchTerm = info;
-      if (this.searchTerm == ''){
-        this.ListFiltered;
-      }
       console.log("setSearchInfo() en App: "+this.searchTerm);     
     },
   }

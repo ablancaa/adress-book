@@ -9,6 +9,7 @@ export const userStore = defineStore('user', {
         email: '',
         token: '',
         listaPrivada: [],
+        listaPublica: []
     }),
     actions: {
         usuario: (state) => state.user
