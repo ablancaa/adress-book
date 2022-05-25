@@ -16,7 +16,6 @@ export default {
   
   setup(props, context) {
     const store = userStore();
-    console.log(store.name);
     let showFormLogin = ref(false);  
 
     /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà

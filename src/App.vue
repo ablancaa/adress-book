@@ -45,39 +45,39 @@ export default {
         this.addressList = response.data.data;
       } catch (error){
         console.log("ERROR "+error);
+        console.log(store.token);
       }
   },
   computed: {
   /* Funció que:
-      ○ Retorna el llistat de receptes en el cas que searchTerm estigui buit.
-      ○ Retorna la col·lecció de receptes filtrada pels termes de cerca. Heu de buscar si
-        searchTerms forma part del nom de la recepta o dels ingredients a cada recepta. */
-     ListFiltered() {
-      const store = userStore();
-      let listaFiltrada = store.listaPrivada;
-      
-      if(this.searchTerm != ''){
-        listaFiltrada = this.listaFiltrada.filter(address => 
-          address.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          address.email.includes(this.searchTerm.toLowerCase()),
-        )
-      } else {
-        listaFiltrada = this.addressList;
-      }
-      return listaFiltrada;
-    },
-  },     
+      ○ Retorna el llistat de contactes en el cas que searchTerm estigui buit.
+      ○ Retorna la col·lecció de contactes filtrada pels termes de cerca. */
+      ListFiltered() {
+  
+      let listaFiltrada = this.addressList;
+      //const store = userStore()
+      if (!this.searchTerm) {
+        return this.addressList
+      } 
+        return listaFiltrada.filter((address) => {
+          return (
+            address.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            address.lastName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            address.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            address.phone.toLowerCase().includes(this.searchTerm.toLowerCase())
+          );
+        });
+      },
+  },
   methods: {
     async login (userLogin){
       const store = userStore();
       try{
         await axios.post("http://localhost:3000/login", userLogin.value)
         .then(response =>{
-          axios.defaults.headers.common['authorization'] = response.data.data;
-          store.usuario = response.data.data;
-          
+          axios.defaults.headers.common['authorization'] = response.data.data;          
           //Acceso a pinia para guardar los datos del usuario
-          store.usuario = response.data.data.name;
+          
           store.name = response.data.data.name;
           store.lastName = response.data.data.lastName;
           store.email = response.data.data.email;
@@ -105,15 +105,7 @@ export default {
     async logout(logout) {
       const store = userStore();
       store.logged = logout;
-      //Carga el listado de contactos del servidor sin autorización
-      try {
-        let response = await axios.get("http://localhost:3000/addresses");
-        this.addressList = response.data.data;
-        store.listaPrivada
-      } catch (error){
-        console.log("ERROR "+error);
-      }
-        location.reload();
+      location.reload();
     },
 
      /*Modifica l'estat del paràmetre showModal al seu invers.*/
