@@ -9,8 +9,8 @@
                         <div class="contacto-publico"><img src="@/assets/candadoAbierto.png" height="30"/></div>
                         <div class="contact" :class="address.private && 'private'"></div>
                         <div class="contacto-privado" v-show="address.private"><img src="@/assets/candado2.png" /></div>
-                        <h2 class="tituloSlide">{{ address.name }} {{ address.lastName }}</h2>
                         <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        <h2 class="tituloSlide">{{ address.name }} {{ address.lastName }}</h2>
                         <!-- <button v-show="store.logged" class="delete-contact" @click="deleteAddress" > -->
                           <!-- <img src="../assets/delete-button.svg" alt="Delete Contact" /> -->
                         <!-- </button> -->
