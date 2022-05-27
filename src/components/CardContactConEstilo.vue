@@ -188,7 +188,7 @@ h2 .cotacto-privado{
   left: -20px;
   width: 100%;
   height: 100%;
-  background: #d14242;
+  background: #ffbf00;/* #d14242*/
   border-radius: 4px;
   color: #fff;
   border-radius: 4px;
