@@ -2,7 +2,7 @@
   <div class="header">
     <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
     <div class="app-name">Address Book</div>
-      <div v-show="store.email" class="user"><p>¡Hola! - {{ store.email }}</p></div>
+      <div v-show="store.email" class="user"><p>¡Hola! - {{ store.name }} {{ store.lastName }}</p></div>
         <button v-show="!store.email" class="login-button" @click="showLogin">Login</button>
         <button v-show="store.email" class="logout-button" @click="logout">Logout</button>
   </div>
