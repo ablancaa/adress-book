@@ -21,17 +21,17 @@ export default {
     const store = userStore();
     let showContactForm = ref(false);
     let consulta = ref('');
-     /* Aquest mètode s'encarregarà de buidar l'element input del camp de cerca.
+    /* Aquest mètode s'encarregarà de buidar l'element input del camp de cerca.
      S’haurà d’executar quan es faci clic al botó “Clear Search”. */
     const clearSearch = () => {
       consulta.value = document.getElementById("consulta").value="";
     }
-      /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
+    /* Aquest mètode s'encarregarà d'emetre un esdeveniment show-form. S’haurà
     d’executar quan es faci clic al botó “Add a new recipe”. */
     const showForm = () => {
       context.emit('openContactForm', showContactForm.value = true);
     }
-     /*Aquest mètode s'executarà cada vegada que es modifiqui l'element
+    /*Aquest mètode s'executarà cada vegada que es modifiqui l'element
      input del camp de cerca (cada vegada que es teclegi una lletra). Emetrà un esdeveniment
      'search' amb el contingut del camp de cerca */
     const search = ref(consulta);   
