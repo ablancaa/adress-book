@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import cardContact from "./CardContact.vue";
+import cardContact from "./CardContactConEstilo.vue";
+//import cardContact from "./CardContact.vue";
 import { } from 'vue';
 export default {  
     name: "ContactList",
