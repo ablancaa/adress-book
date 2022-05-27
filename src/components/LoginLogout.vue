@@ -86,9 +86,9 @@ export default {
 .header .logout-button {
   background: #2c3e50;
   color: #fff;
-  border: 0;
+  border: 4px;
   padding: 5px 10px;
-  border-radius: 4px;
+  border-radius: solid 4px #4caf50;
   cursor: pointer;
   margin-left: 15px;
 }
