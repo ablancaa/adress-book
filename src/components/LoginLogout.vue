@@ -72,7 +72,7 @@ export default {
 }
 .user{
   float: right;
-  margin-right: -500px;
+  margin-right: -475px;
 }
 .header .user {
   display: flex;
