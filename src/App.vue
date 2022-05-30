@@ -19,7 +19,7 @@ import LoginForm from './components/LoginForm.vue';
 import LoginLogout from './components/LoginLogout.vue';
 import ContactList from './components/ContactList.vue';
 import { userStore } from '@/store/user'
-
+import Swal from 'sweetalert2';
 export default {
   components: { 
     SearchBar,
@@ -139,7 +139,7 @@ export default {
       }
     },
 
-    async deleteAddress(id){
+    async deleteAddress (id) {
       const store = userStore();
       try {
         axios.defaults.headers.common['authorization'] = store.token;
@@ -148,6 +148,7 @@ export default {
       } catch (error){
         console.log(error);
       }
+      
       //Carga el listado de contactos del servidor
       try {
         let response = await axios.get("http://localhost:3000/addresses");
@@ -155,11 +156,22 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-      
+      this.mensajeDelete();
     },
 
-    setSearchTerm(info){
+    setSearchTerm (info) {
       this.searchTerm = info;
+    },
+    
+    mensajeDelete () {
+    //Mensaje de borrado
+      Swal.fire({
+        position: 'top-center',
+        icon: 'success',
+        title: 'Your contact has been deleted',
+        showConfirmButton: false,
+        timer: 2500
+      })
     },
   }
 }

@@ -65,7 +65,11 @@
 <script>
 import { ref } from 'vue';
 import { uuid } from 'vue3-uuid';
+// ES6 Modules or TypeScript
+import Swal from 'sweetalert2';
+//const Swal = require('sweetalert2');
 export default {
+   
     emits:['openFormContact', 'closeFormContact', 'nuevoContacto'],
     setup (props, context) {
         //Variable que emite para mostrar formulario
@@ -137,6 +141,7 @@ export default {
           //Indico en el Div add que se añade el contacto nuevo
               add.innerHTML = 'Add Contact <br/>';
               add.innerHTML += '<br/>';
+              mensajeOK();
           //Borro los campos del formulario    
               borrarCampos();
               context.emit('closeFormContact', false);
@@ -160,8 +165,18 @@ export default {
                 private: contact.value.private='',
             });
         }
+        const mensajeOK =() => {
+          //Mensaje de OK
+          Swal.fire({
+            position: 'top-center',
+            icon: 'success',
+            title: 'Your contact has been saved',
+            showConfirmButton: false,
+            timer: 2500
+          })
+        }
 
-        return { showFormContact, closeFormContact, createContact, borrarCampos, contact }
+        return { showFormContact, closeFormContact, createContact, borrarCampos, mensajeOK, contact }
     }
 }
 </script>
