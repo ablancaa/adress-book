@@ -9,7 +9,6 @@
 <script>
 import cardContact from "./CardContactConEstilo.vue";
 //import cardContact from "./CardContact.vue";
-//import cardContact from "./CardContactDesplegable.vue";
 
 import { } from 'vue';
 export default {  

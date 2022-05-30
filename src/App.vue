@@ -8,6 +8,7 @@
 <LoginForm v-if="showModalLogin" @closeForm="toggleFormLogin" @usuarioLogin="login"/>
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
 <ContactList :addressList="ListFiltered" @deleteAddress="deleteAddress"/>
+
   <!-- <router-view/> -->
 </template>
 <script>
@@ -26,7 +27,7 @@ export default {
     LoginLogout,
     LoginForm,
     FormContact,
-    ContactList: ContactList
+    ContactList: ContactList,
   },
   data(){
     return{
@@ -67,7 +68,9 @@ export default {
         }
         return this.addressList;
       },
+
   },//FIN computed
+
   methods: {
     async login (userLogin){
       const store = userStore();
@@ -83,22 +86,8 @@ export default {
           store.logged = true;
           this.showModalLogin = false;
         })
-        //Ventana de progreso de login (librería SweetAlert)
-        const Toast = Swal.mixin({
-           toast: true,
-           position: 'center',
-           showConfirmButton: false,
-           timer: 2000,
-           timerProgressBar: true,
-           didOpen: (toast) => {
-             toast.addEventListener('mouseenter', Swal.stopTimer)
-             toast.addEventListener('mouseleave', Swal.resumeTimer)
-           }
-          })
-          Toast.fire({
-            icon: 'success',
-            title: 'Signed in successfully'
-           })
+        //Ventana de progreso de login (librería SweetAlert2)
+        this.ventanaProgresoLogin();
       } catch (error) {
           console.log(error);
       }
@@ -110,8 +99,7 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-
-        },
+    },
 
     async logout(logout) {
       const store = userStore();
@@ -127,6 +115,7 @@ export default {
         this.showModalLogin = false;
       }
     },
+
     /* Muestra ventana modal ContactForm */
     toggleFormContact(info){
       if (info == true) {
@@ -135,6 +124,7 @@ export default {
         this.showModalContact = false;
       }
     },
+
     async createContact(address){
       const store = userStore();
       //Añade el contacto a la lista del servidor
@@ -173,21 +163,39 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-      this.mensajeDelete(); //Ventana modal informando del borrado del contacto (librería sweetHeart)
+      this.mensajeDelete(); //Ventana modal informando del borrado del contacto (librería SweetAlert2)
     },
 
     setSearchTerm (info) {
       this.searchTerm = info;
     },
     
-    mensajeDelete () {
     //Mensaje de borrado
+    mensajeDelete () {
       Swal.fire({
         position: 'center',
         icon: 'info',
         title: 'Your contact has been deleted',
         showConfirmButton: false,
         timer: 2500
+      })
+    },
+    //Cuadro de progreso que aparece mientras se loga
+    ventanaProgresoLogin() {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+      })
+      Toast.fire({
+        icon: 'success',
+        title: 'Signed in successfully'
       })
     },
   }

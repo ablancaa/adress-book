@@ -13,7 +13,7 @@
                     <input type="email" v-model="userName" placeholder=""/>
                 </div>
                 <div class="login-form-item">
-                    <label>Passwrod</label>
+                    <label>Password</label>
                     <input type="password" v-model="userPassword" placeholder=""/>
                 </div>
                 <div class="login-form-item">
@@ -34,7 +34,7 @@ export default {
         let userPassword = ref('');
         let store = userStore();
         let mensajeError = ref('');
-        //var error = document.getElementById("error");
+
       /* Aquest mètode s'ha d'executar quan es faci clic al botó que conté el svg amb
          el símbol X. S'encarregarà de:
           ○ Emetre un esdeveniment close-modal  */
