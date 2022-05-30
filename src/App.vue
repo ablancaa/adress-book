@@ -166,7 +166,7 @@ export default {
     mensajeDelete () {
     //Mensaje de borrado
       Swal.fire({
-        position: 'top-center',
+        position: 'center',
         icon: 'success',
         title: 'Your contact has been deleted',
         showConfirmButton: false,
@@ -177,8 +177,9 @@ export default {
 }
 </script>
 <style>
+@import url('https://fonts.googleapis.com/css?family=Modak|Roboto');
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto',Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
