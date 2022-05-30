@@ -83,6 +83,7 @@ export default {
           store.logged = true;
           this.showModalLogin = false;
         })
+        //Ventana de progreso de login (librería SweetAlert)
         const Toast = Swal.mixin({
            toast: true,
            position: 'center',
