@@ -83,6 +83,21 @@ export default {
           store.logged = true;
           this.showModalLogin = false;
         })
+        const Toast = Swal.mixin({
+           toast: true,
+           position: 'center',
+           showConfirmButton: false,
+           timer: 2000,
+           timerProgressBar: true,
+           didOpen: (toast) => {
+             toast.addEventListener('mouseenter', Swal.stopTimer)
+             toast.addEventListener('mouseleave', Swal.resumeTimer)
+           }
+          })
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+           })
       } catch (error) {
           console.log(error);
       }
@@ -93,8 +108,9 @@ export default {
         this.addressList = response.data.data;
       } catch (error){
         console.log("ERROR "+error);
-      } 
-    },
+      }
+
+        },
 
     async logout(logout) {
       const store = userStore();
@@ -156,7 +172,7 @@ export default {
       } catch (error){
         console.log("ERROR "+error);
       }
-      this.mensajeDelete();
+      this.mensajeDelete(); //Ventana modal informando del borrado del contacto (librería sweetHeart)
     },
 
     setSearchTerm (info) {
@@ -167,7 +183,7 @@ export default {
     //Mensaje de borrado
       Swal.fire({
         position: 'center',
-        icon: 'success',
+        icon: 'info',
         title: 'Your contact has been deleted',
         showConfirmButton: false,
         timer: 2500
