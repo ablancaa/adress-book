@@ -6,7 +6,7 @@
        <button v-if="consulta != ''" @click="clearSearch">Clear Search</button>
     </form>
     </div>
-    <button v-show="store.logged" @click="showForm">Add contact</button>
+      <button v-show="store.logged" @click="showForm">Add contact</button>
   </div>
 </template>
 
@@ -77,6 +77,10 @@ body {
   cursor: pointer;
   background: #4caf50;
   color: #fff;
+}
+
+.margen{
+  margin-right: -400px;
 }
 
 </style>
