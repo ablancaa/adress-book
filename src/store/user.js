@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-
+import axios from 'axios'
 export const userStore = defineStore('user', {
     id: 'user',
     state: () => ({
@@ -8,11 +8,21 @@ export const userStore = defineStore('user', {
         lastName: '',
         email: '',
         token: '',
-        //listaPrivada: [],
-        //listaPublica: []
+        listaPrivada: [],
+        listaPublica: []
     }),
     actions: {
-        usuario: (state) => state.user
+        async getListPublic() { 
+           try {
+               let response = await axios.get("http://localhost:3000/addresses");
+               console.log(this.token);
+               console.log("Lista desde store")
+               console.log(this.listaPublica);
+               return this.listaPublica = response.data.data;
+           } catch (error){
+               console.log("ERROR "+error);
+            }
+       }
     },
     getters: {
         getName: (state) => { 

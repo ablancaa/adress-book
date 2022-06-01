@@ -65,9 +65,7 @@
 <script>
 import { ref } from 'vue';
 import { uuid } from 'vue3-uuid';
-// ES6 Modules or TypeScript
 import Swal from 'sweetalert2';
-//const Swal = require('sweetalert2');
 export default {
    
     emits:['openFormContact', 'closeFormContact', 'nuevoContacto'],
@@ -96,7 +94,6 @@ export default {
         /* Emite para que se muestre el formulario de introducción de usuario */
         const showFormContact = () => {
             context.emit('openFormContact', showForm.value = true);
-            console.log("Emitido de LoginLogout: "+showForm.value);
         }
 
         /* Emite para que se cierre el formulario de introducción de usuario */

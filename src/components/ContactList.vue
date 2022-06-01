@@ -23,10 +23,9 @@ export default {
   emits:['deleteAddress'],
   
   setup(props, context){
-   const deleteAddress = (id) => {
-         context.emit('deleteAddress', id);
-         console.log("FUNCIÓN deleteAddress() desde ContactList emite => "+id);
-       }
+    const deleteAddress = (id) => {
+      context.emit('deleteAddress', id);
+    }
 
     return { deleteAddress }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.png" />
+    <img class="logo" alt="UOC logo" src="@/assets/uoc-logo.jpg" />
     <div class="app-name"><h3>Address Book</h3></div>
       <div v-show="store.email" class="user lineUp"><p>¡Hola! - {{ store.name }} {{ store.lastName }}  |            
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope margen" viewBox="0 0 16 16">
@@ -39,7 +39,6 @@ export default {
 </script>
 
 <style  scoped>
-
 .margen{
   margin-bottom: -2px;
 }
@@ -65,13 +64,13 @@ export default {
   max-height: 50px;
 }
 .header .app-name {
-  margin-left: -400px;
+  margin-left: 0px;
   font-weight: bold;
   font-size: 20px;
 }
 .user {
   float: right;
-  margin-right: -470px;
+  margin-right: -200px;
   margin-top:0px
 }
 .userToken {
@@ -84,10 +83,10 @@ export default {
 }
 .header .login-button,
 .header .logout-button {
-  background: #2c3e50;
+  background: #4caf50;
   color: #fff;
   border: 4px;
-  padding: 5px 10px;
+  padding: 10px;
   border-radius: solid 4px #4caf50;
   cursor: pointer;
   margin-left: 15px;
@@ -161,7 +160,7 @@ button {
   animation-name: spin, depth;
   animation-timing-function: linear;
   animation-iteration-count: 1;
-  animation-duration: 6s;
+  animation-duration: 5s;
 }
 @keyframes spin {
   0% {

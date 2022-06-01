@@ -8,6 +8,7 @@
     </div>
       <button v-show="store.logged" @click="showForm" class="lineUp">Add contact</button>
   </div>
+  <div></div>
 </template>
 
 <script>
@@ -35,8 +36,8 @@ export default {
      input del camp de cerca (cada vegada que es teclegi una lletra). Emetrà un esdeveniment
      'search' amb el contingut del camp de cerca */
     const search = ref(consulta);   
-    watch((search), (currentValue) => {
-      console.log("Valor actual en la SearchBar: "+currentValue);
+    watch((search), () => {
+      //console.log("Valor actual en la SearchBar: "+currentValue);
       context.emit("newVal", search);
     });
 
@@ -49,6 +50,7 @@ export default {
 body {
   margin: 0;
 }
+
 .search {
   width: 100%;
   padding: 15px;

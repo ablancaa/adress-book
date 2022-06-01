@@ -21,6 +21,7 @@ import LoginLogout from './components/LoginLogout.vue';
 import ContactList from './components/ContactList.vue';
 import { userStore } from '@/store/user'
 import Swal from 'sweetalert2';
+
 export default {
   components: { 
     SearchBar,
@@ -40,14 +41,15 @@ export default {
  
   async created() { 
     const store = userStore();
-      //Carga el listado de contactos del servidor
+    //Carga el listado de contactos del servidor
       try {
-        let response = await axios.get("http://localhost:3000/addresses");
-        this.addressList = response.data.data;
-      } catch (error){
-        console.log("ERROR "+error);
-        console.log(store.token);
-      }
+       let response = await axios.get("http://localhost:3000/addresses");
+       this.addressList = response.data.data;
+       store.listaPublica = this.addressList ;
+       } catch (error){
+         console.log("ERROR "+error);
+         console.log(store.token);
+       }
   },
   computed: {
   /* Funció que:
@@ -77,7 +79,6 @@ export default {
       try{
         await axios.post("http://localhost:3000/login", userLogin.value)
         .then(response =>{
-          axios.defaults.headers.common['authorization'] = response.data.data;          
           //Acceso a pinia para guardar los datos del usuario
           store.name = response.data.data.name;
           store.lastName = response.data.data.lastName;
@@ -96,6 +97,7 @@ export default {
         axios.defaults.headers.common['authorization'] = store.token;
         let response = await axios.get("http://localhost:3000/addresses");
         this.addressList = response.data.data;
+        store.listaPrivada = this.addressList;
       } catch (error){
         console.log("ERROR "+error);
       }
@@ -104,6 +106,7 @@ export default {
     async logout(logout) {
       const store = userStore();
       store.logged = logout;
+      store.$reset();
       location.reload();
     },
 
@@ -186,7 +189,7 @@ export default {
         toast: true,
         position: 'center',
         showConfirmButton: false,
-        timer: 2000,
+        timer: 1500,
         timerProgressBar: true,
           didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

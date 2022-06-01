@@ -65,7 +65,6 @@ export default {
       let contacto = ref(props.address);
       
       const deleteAddress = () => {
-         console.log("FUNCIÓN: deleteAddress() desde CardContact emite => "+contacto.value.id);
          context.emit("deleteAddress", contacto.value.id);
       }//FIN deleteRecipe()
 
