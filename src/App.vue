@@ -45,7 +45,7 @@ export default {
       try {
        let response = await axios.get("http://localhost:3000/addresses");
        this.addressList = response.data.data;
-       store.listaPublica = this.addressList ;
+       store.listaPublica = this.addressList;
        } catch (error){
          console.log("ERROR "+error);
          console.log(store.token);
@@ -180,7 +180,7 @@ export default {
         icon: 'info',
         title: 'Your contact has been deleted',
         showConfirmButton: false,
-        timer: 2500
+        timer: 1500
       })
     },
     //Cuadro de progreso que aparece mientras se loga
@@ -189,7 +189,7 @@ export default {
         toast: true,
         position: 'center',
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1000,
         timerProgressBar: true,
           didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

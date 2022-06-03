@@ -169,7 +169,7 @@ export default {
             icon: 'success',
             title: 'Your contact has been saved',
             showConfirmButton: false,
-            timer: 2500
+            timer: 1500
           })
         }
 
