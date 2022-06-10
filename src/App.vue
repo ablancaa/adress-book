@@ -9,7 +9,6 @@
 <FormContact v-if="showModalContact" @closeFormContact="toggleFormContact" @nuevoContacto="createContact"/>
 <ContactList :addressList="ListFiltered" @deleteAddress="deleteAddress"/>
 
-  <!-- <router-view/> -->
 </template>
 <script>
 //import axios from 'vue';
